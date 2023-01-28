@@ -11,8 +11,8 @@ import aside from '../assets/aside.svg';
 import aside2 from '../assets/aside2.svg';
 import aside3 from '../assets/aside3.svg';
 import aside4 from '../assets/aside4.svg';
-import hero from '../assets/hero.svg';
-import logo from '../assets/logo.svg';
+import hero from '../assets/hero.png';
+import logo from '../assets/logo.png';
 import serviceIcon1 from '../assets/service-icon1.svg';
 import serviceIcon2 from '../assets/service-icon2.svg';
 

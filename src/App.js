@@ -1,17 +1,17 @@
 import React from 'react';
 
-import { About, Footer, Header, Skills, Testimonial, Work } from './container';
-import './App.scss';
+import { About, Blog, Feedback, Footer, Header, Services, University } from './container';
+import './responsive.scss';
 
 const App = () => {
   return (
     <div className='app'>
-      {/* <Navbar /> */}
       <Header />
+      <Services />
       <About />
-      <Work />
-      <Skills />
-      <Testimonial />
+      <University />
+      <Blog />
+      <Feedback />
       <Footer />
     </div>
   )
