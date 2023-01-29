@@ -6,7 +6,7 @@ import "./University.scss";
 
 function University() {
   return (
-    <section id="portfolio" class="portfolio">
+    <section id="university" class="portfolio">
       <div class="container-fluid">
         <div class="portfolio-aside">
           <img src={images.aside3} alt="" />

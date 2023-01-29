@@ -6,7 +6,7 @@ import "./Feedback.scss";
 
 function Feedback() {
   return (
-    <section id="contact-us" class="contact">
+    <section id="feedback" class="contact">
       <div class="container">
         <div class="row">
           <div class="col-12">
