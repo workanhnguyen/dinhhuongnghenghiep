@@ -29,12 +29,7 @@ function Footer() {
                 </a>
               </li>
               <li>
-                <a data-scroll href="#blog">
-                  Blog
-                </a>
-              </li>
-              <li>
-                <a data-scroll href="#contact-us">
+                <a data-scroll href="#feedback">
                   Phản hồi
                 </a>
               </li>

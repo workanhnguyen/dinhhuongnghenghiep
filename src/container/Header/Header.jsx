@@ -20,10 +20,6 @@ const navList = [
     href: '#university'
   },
   {
-    title: 'Blog',
-    href: '#blog'
-  },
-  {
     title: 'Phản hồi',
     href: '#feedback'
   },
@@ -36,26 +32,11 @@ function Header() {
   return (
     <header id="home">
       <div className="container">
-        <nav class="navbar navbar-expand-lg navbar-light ">
+        <nav className="navbar navbar-expand-lg navbar-light ">
           {/* <!-- Change Logo Img Here --> */}
-          <a class="navbar-brand" href="#">
+          <a className="navbar-brand" href="#">
             <img src={images.logo} alt="logo" />
           </a>
-          {/* <button
-            class="navbar-toggler"
-            type="button"
-            data-toggle="collapse"
-            data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <div class="interactive-menu-button">
-              <a href="#">
-                <span>Menu</span>
-              </a>
-            </div>
-          </button> */}
 
           <div className="app__navbar-menu">
             <HiMenuAlt4 onClick={() => setToggle(true)} />
@@ -93,16 +74,16 @@ function Header() {
             )}
           </div>
 
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <div className="collapse navbar-collapse" id="navbarSupportedContent">
             {/* <!-- Nav Link --> */}
-            <ul class="navbar-nav mr-auto">
+            <ul className="navbar-nav mr-auto">
               {navList.map((item, index) => {
                 if (index === 0) 
-                  return (<li className="nav-item active">
+                  return (<li key={index} className="nav-item active">
                     <a className="nav-link" data-scroll href={item.href}>{item.title}</a>
                   </li>);
                 else 
-                  return (<li className="nav-item">
+                  return (<li key={index} className="nav-item">
                     <a className="nav-link" data-scroll href={item.href}>{item.title}</a>
                   </li>)
               })}
@@ -110,7 +91,7 @@ function Header() {
             <form
               data-scroll
               href="#feedback"
-              class="contact-btn form-inline my-2 my-lg-0"
+              className="contact-btn form-inline my-2 my-lg-0"
             >
               {/* <!-- Sign in Button --> */}
               <button>Đăng nhập</button>

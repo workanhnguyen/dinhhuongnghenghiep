@@ -1,10 +1,26 @@
-import React from "react";
+import React, { useState, memo } from "react";
 
 import { images } from "../../constants";
 import "../../css/bootstrap.min.css";
 import "./University.scss";
 
+const universities = [
+  { image: images.logoBK, showed: true },
+  { image: images.logoOU, showed: true },
+  { image: images.logoUEH, showed: true },
+  { image: images.logoUEL, showed: true },
+  { image: images.logoUSSH, showed: true },
+  { image: images.logoUIT, showed: true },
+  { image: images.logoUTE, showed: false },
+  { image: images.logoIUH, showed: false },
+  { image: images.logoFTU, showed: false },
+]
+
 function University() {
+
+  const [uniList, setUniList] = useState(universities);
+  const [toggleShowMoreUni, setToggleShowMoreUni] = useState(false);
+
   return (
     <section id="university" class="portfolio">
       <div class="container-fluid">
@@ -21,145 +37,64 @@ function University() {
               </h2>
             </div>
           </div>
-          <div class="row">
-            <div class="col-12 col-lg-4 work-box">
-              <div class="photobox photobox_type10">
-                <div class="photobox__previewbox">
-                  {/* <!-- Replace Patch to Image Under --> */}
-                  <img
-                    src={images.one}
-                    class="photobox__preview"
-                    alt="Preview"
-                  />
-                  {/* <!-- Replace Image Title Under --> */}
-                  <span class="photobox__label">Đăng nhập để xem</span>
-                </div>
-              </div>
-            </div>
-            <div class="col-12 col-lg-4 work-box">
-              <div class="photobox photobox_type10">
-                <div class="photobox__previewbox">
-                  {/* <!-- Replace Patch to Image Under --> */}
-                  <img
-                    src={images.two}
-                    class="photobox__preview"
-                    alt="Preview"
-                  />
-                  {/* <!-- Replace Image Title Under --> */}
-                  <span class="photobox__label">Đăng nhập để xem</span>
-                </div>
-              </div>
-            </div>
-            <div class="col-12 col-lg-4 work-box">
-              <div class="photobox photobox_type10">
-                <div class="photobox__previewbox">
-                  {/* <!-- Replace Patch to Image Under --> */}
-                  <img
-                    src={images.three}
-                    class="photobox__preview"
-                    alt="Preview"
-                  />
-                  {/* <!-- Replace Image Title Under --> */}
-                  <span class="photobox__label">Đăng nhập để xem</span>
-                </div>
-              </div>
-            </div>
+          <div className="row">
+            {uniList.map((item, index) => {
+              if (item.showed === true)
+                return (
+                  <div key={index} className="col-12 col-lg-4 work-box">
+                    <div className="photobox photobox_type10">
+                      <div className="photobox__previewbox">
+                        <img 
+                          src={item.image}
+                          className="photobox__preview"
+                          alt="Preview"
+                        />
+                        <span className="photobox__label">Đăng nhập để xem</span>
+                      </div>
+                    </div>
+                  </div>
+                );
+            })}
           </div>
-          <div class="row">
-            <div class="col-12 col-lg-4 work-box">
-              <div class="photobox photobox_type10">
-                <div class="photobox__previewbox">
-                  {/* <!-- Replace Patch to Image Under --> */}
-                  <img
-                    src={images.four}
-                    class="photobox__preview"
-                    alt="Preview"
-                  />
-                  {/* <!-- Replace Image Title Under --> */}
-                  <span class="photobox__label">Đăng nhập để xem</span>
-                </div>
-              </div>
-            </div>
-            <div class="col-12 col-lg-4 work-box">
-              <div class="photobox photobox_type10">
-                <div class="photobox__previewbox">
-                  {/* <!-- Replace Patch to Image Under --> */}
-                  <img
-                    src={images.five}
-                    class="photobox__preview"
-                    alt="Preview"
-                  />
-                  {/* <!-- Replace Image Title Under --> */}
-                  <span class="photobox__label">Đăng nhập để xem</span>
-                </div>
-              </div>
-            </div>
-            <div class="col-12 col-lg-4 work-box">
-              <div class="photobox photobox_type10">
-                <div class="photobox__previewbox">
-                  {/* <!-- Replace Patch to Image Under --> */}
-                  <img
-                    src={images.six}
-                    class="photobox__preview"
-                    alt="Preview"
-                  />
-                  {/* <!-- Replace Image Title Under --> */}
-                  <span class="photobox__label">Đăng nhập để xem</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          {/* <!-- Hidden Images From Portfolio --> */}
+          {/* <!-- Hidden Images From University --> */}
           <div id="hiden-gallery" class="hide">
             <div class="row">
-              <div class="col-12 col-lg-4 work-box">
-                <div class="photobox photobox_type10">
-                  <div class="photobox__previewbox">
-                    {/* <!-- Replace Patch to Image Under --> */}
-                    <img
-                      src={images.five}
-                      class="photobox__preview"
-                      alt="Preview"
-                    />
-                    {/* <!-- Replace Image Title Under --> */}
-                    <span class="photobox__label">Đăng nhập để xem</span>
-                  </div>
-                </div>
-              </div>
-              <div class="col-12 col-lg-4 work-box">
-                <div class="photobox photobox_type10">
-                  <div class="photobox__previewbox">
-                    {/* <!-- Replace Patch to Image Under --> */}
-                    <img
-                      src={images.three}
-                      class="photobox__preview"
-                      alt="Preview"
-                    />
-                    {/* <!-- Replace Image Title Under --> */}
-                    <span class="photobox__label">Đăng nhập để xem</span>
-                  </div>
-                </div>
-              </div>
-              <div class="col-12 col-lg-4 work-box">
-                <div class="photobox photobox_type10">
-                  <div class="photobox__previewbox">
-                    {/* <!-- Replace Patch to Image Under --> */}
-                    <img
-                      src={images.one}
-                      class="photobox__preview"
-                      alt="Preview"
-                    />
-                    {/* <!-- Replace Image Title Under --> */}
-                    <span class="photobox__label">Đăng nhập để xem</span>
-                  </div>
-                </div>
-              </div>
+              {universities.map((item, index) => {
+                if (item.showed === false)
+                  return (
+                    <div key={index} className="col-12 col-lg-4 work-box">
+                      <div className="photobox photobox_type10">
+                        <div className="photobox__previewbox">
+                          <img 
+                            src={item.image}
+                            className="photobox__preview"
+                            alt="Preview"
+                          />
+                          <span className="photobox__label">Đăng nhập để xem</span>
+                        </div>
+                      </div>
+                    </div>
+                  );
+              })}
             </div>
           </div>
           <div class="row">
             <div class="col-12 more-btn">
               {/* <!-- Show Me More/Less Button --> */}
-              <a class="more-btn-inside">Hiển thị thêm</a>
+              {toggleShowMoreUni ? null : (
+                <a onClick={() => {
+                  setUniList(uniList.map((item) => {
+                    if (item.showed === false)
+                      item.showed = true;
+                      return item;
+                    }))
+                    setToggleShowMoreUni(true)
+                  }} 
+                class="more-btn-inside"
+                >
+                  Hiển thị thêm
+                </a>
+              )}
             </div>
           </div>
         </div>
@@ -168,4 +103,4 @@ function University() {
   );
 }
 
-export default University;
+export default memo(University);

@@ -20,6 +20,7 @@
     box-shadow: 0px 3px 7px 0px rgba(28,31,33,0.15);
     margin: 10px;
   }
+  
   .blog-box p:nth-child(2) {
     font-size: 0.9rem;
     color: #6E757A!important;
@@ -47,6 +48,9 @@
   .blog-slider button:hover {
     color: #314584;
     transition: all 0.3s ease;
+  }
+  .blog-slider a {
+    text-decoration: none;
   }
   .blog-first {
     background-color: #FF3946;

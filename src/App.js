@@ -1,19 +1,22 @@
 import React from 'react';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
-import { About, Blog, Feedback, Footer, Header, Services, University } from './container';
 import './responsive.scss';
+import { publicRoutes } from './routes';
 
 const App = () => {
   return (
-    <div className='app'>
-      <Header />
-      <Services />
-      <About />
-      <University />
-      <Blog />
-      <Feedback />
-      <Footer />
-    </div>
+    <BrowserRouter>
+      <div className='app'>
+        <Routes>
+          {publicRoutes.map((route, index) =>{
+            const Page = route.component;
+            return <Route key={index} path={route.path} element={<Page />} />
+          })}
+        </Routes>
+        
+      </div>
+    </BrowserRouter>
   )
 }
 

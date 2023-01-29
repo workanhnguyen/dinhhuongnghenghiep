@@ -19,7 +19,7 @@ function Blog() {
             </div>
           </div>
           <div id="blog-drag" class="row blog-slider">
-            <div class="col-12 col-lg-4 blog-box blog-first">
+            <a href="https://ou.edu.vn" class="col-12 col-lg-4 blog-box blog-first">
               {/* <!-- Blog Post Title --> */}
               <h6>Trường Đại học Mở TPHCM</h6>
               {/* <!-- Blog Post Date --> */}
@@ -28,8 +28,8 @@ function Blog() {
               <p>
                 Chỉ tiêu tuyển sinh của Trường Đại học Mở thành phố Hồ Chí Minh năm 2023 là...
               </p>
-            </div>
-            <div class="col-12 col-lg-4 blog-box">
+            </a>
+            <a href="https://ou.edu.vn" class="col-12 col-lg-4 blog-box">
               {/* <!-- Blog Post Title --> */}
               <h6>Trường Đại học Mở TPHCM</h6>
               {/* <!-- Blog Post Date --> */}
@@ -38,8 +38,8 @@ function Blog() {
               <p>
                 Chỉ tiêu tuyển sinh của Trường Đại học Mở thành phố Hồ Chí Minh năm 2023 là...
               </p>
-            </div>
-            <div class="col-12 col-lg-4 blog-box">
+            </a>
+            <a href="https://ou.edu.vn" class="col-12 col-lg-4 blog-box">
               {/* <!-- Blog Post Title --> */}
               <h6>Trường Đại học Mở TPHCM</h6>
               {/* <!-- Blog Post Date --> */}
@@ -48,9 +48,9 @@ function Blog() {
               <p>
                 Chỉ tiêu tuyển sinh của Trường Đại học Mở thành phố Hồ Chí Minh năm 2023 là...
               </p>
-            </div>
+            </a>
             {/* <!-- Blog Section to be showed on Drag  --> */}
-            <div class="col-12 col-lg-4 blog-box hiden-blog hide-blog">
+            <a href="https://ou.edu.vn" class="col-12 col-lg-4 blog-box hiden-blog hide-blog">
               {/* <!-- Blog Post Title --> */}
               <h6>Trường Đại học Mở TPHCM</h6>
               {/* <!-- Blog Post Date --> */}
@@ -59,7 +59,7 @@ function Blog() {
               <p>
                 Chỉ tiêu tuyển sinh của Trường Đại học Mở thành phố Hồ Chí Minh năm 2023 là...
               </p>
-            </div>
+            </a>
             <div class="col-12 col-lg-4 blog-box hiden-blog hide-blog">
               {/* <!-- Blog Post Title --> */}
               <h6>Trường Đại học Mở TPHCM</h6>
