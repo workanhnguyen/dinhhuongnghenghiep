@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 import { images } from "../../constants";
 import "../../css/bootstrap.min.css";
@@ -32,9 +33,9 @@ function Services() {
             <div className="col-12 col-sm-12 col-lg-4 service-txt">
               <h2 className="service-title">Mọi thứ bạn cần, chúng tôi cung cấp</h2>
               <div className="hero-btns service-btn">
-                <a data-scroll href="#contact-us">
+                <Link to="/login" data-scroll>
                   Trải nghiệm ngay
-                </a>
+                </Link>
               </div>
             </div>
             
@@ -47,7 +48,6 @@ function Services() {
                 </div>
               </div>
             ))}
-
           </div>
         </div>
       </div>

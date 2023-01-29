@@ -1,4 +1,5 @@
 import React, { useState, memo } from "react";
+import { Link } from "react-router-dom";
 
 import { images } from "../../constants";
 import "../../css/bootstrap.min.css";
@@ -43,14 +44,14 @@ function University() {
                 return (
                   <div key={index} className="col-12 col-lg-4 work-box">
                     <div className="photobox photobox_type10">
-                      <div className="photobox__previewbox">
+                      <Link to="/login" className="photobox__previewbox">
                         <img 
                           src={item.image}
                           className="photobox__preview"
                           alt="Preview"
                         />
                         <span className="photobox__label">Đăng nhập để xem</span>
-                      </div>
+                      </Link>
                     </div>
                   </div>
                 );

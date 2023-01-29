@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { images } from "../../constants";
 import "../../css/bootstrap.min.css";
 import "./Header.scss";
+import { Link } from "react-router-dom";
 
 const navList = [
   {
@@ -94,7 +95,7 @@ function Header() {
               className="contact-btn form-inline my-2 my-lg-0"
             >
               {/* <!-- Sign in Button --> */}
-              <button>Đăng nhập</button>
+              <Link className="btn-signin" to="/login">Đăng nhập</Link>
             </form>
           </div>
         </nav>
@@ -117,13 +118,13 @@ function Header() {
           </p>
           <div className="hero-btns">
             {/* <!-- Hero Btn First --> */}
-            <a data-scroll href="#about-us">
+            <Link to="/register" data-scroll>
               Đăng ký
-            </a>
+            </Link>
             {/* <!-- Hero Btn Second --> */}
-            <a data-scroll href="#feedback">
+            <Link to="/login" data-scroll href="#feedback">
               Đăng nhập
-            </a>
+            </Link>
           </div>
         </div>
       </div>
