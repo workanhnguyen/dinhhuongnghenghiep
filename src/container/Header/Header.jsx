@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
+import { HiMenuAlt4, HiX } from 'react-icons/hi';
+import { motion } from 'framer-motion';
 
 import { images } from "../../constants";
 import "../../css/bootstrap.min.css";
@@ -29,6 +31,8 @@ const navList = [
 
 function Header() {
 
+  const [toggle, setToggle] = useState(false);
+
   return (
     <header id="home">
       <div className="container">
@@ -37,7 +41,7 @@ function Header() {
           <a class="navbar-brand" href="#">
             <img src={images.logo} alt="logo" />
           </a>
-          <button
+          {/* <button
             class="navbar-toggler"
             type="button"
             data-toggle="collapse"
@@ -51,7 +55,44 @@ function Header() {
                 <span>Menu</span>
               </a>
             </div>
-          </button>
+          </button> */}
+
+          <div className="app__navbar-menu">
+            <HiMenuAlt4 onClick={() => setToggle(true)} />
+            {toggle && (
+              <motion.div
+                whileInView={{ x: [300, 0] }}
+                transition={{ duration: 0.85, ease: 'easeOut' }}
+              >
+                <HiX onClick={() => setToggle(false)} />
+                <ul className="app__navbar-links">
+                  {navList.map((item, index) => {
+                    if (index === 0) 
+                      return (<li key={index}>
+                          <a 
+                            data-scroll 
+                            href={item.href}
+                            onClick={() => setToggle(false)}
+                          >
+                            {item.title}
+                          </a>
+                        </li>);
+                    else 
+                      return (<li key={index}>
+                          <a 
+                            data-scroll 
+                            href={item.href}
+                            onClick={() => setToggle(false)}
+                          >
+                            {item.title}
+                          </a>
+                        </li>)
+                  })}
+                </ul>
+              </motion.div>
+            )}
+          </div>
+
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             {/* <!-- Nav Link --> */}
             <ul class="navbar-nav mr-auto">
@@ -91,7 +132,7 @@ function Header() {
           <p className="hero-content">
             Chúng tôi giúp bạn tìm ra lĩnh vực mà bạn đam mê, từ đó giúp xác định
             ngành nghề phù hợp với bạn trong tương lai. Đồng thời bạn có thể tìm kiếm
-            ngôi trường đại học mơ ước ở đây.
+            ngôi trường đại học mơ ước tại đây.
           </p>
           <div className="hero-btns">
             {/* <!-- Hero Btn First --> */}

@@ -17,10 +17,10 @@ function Services() {
         <div class="container">
           <div class="row">
             <div class="col-12 col-sm-12 col-lg-4 service-txt">
-              <h2>Anything you need,we’ve got you covered</h2>
+              <h2 className="service-title">Mọi thứ bạn cần, chúng tôi cung cấp</h2>
               <div class="hero-btns service-btn">
                 <a data-scroll href="#contact-us">
-                  Get in Touch
+                  Trải nghiệm ngay
                 </a>
               </div>
             </div>
@@ -29,14 +29,14 @@ function Services() {
                 <img src={images.serviceIcon1} alt="" />
                 {/* <!-- Service Title --> */}
                 <h3>
-                  Web & Graphic
+                  Khảo sát
                   <br />
-                  Design
+                  định hướng
                 </h3>
                 {/* <!-- Replace Patch to Image Under --> */}
                 <p>
-                  Vestibulum ac diam sit amet quam vehicula elementum amet est
-                  on dui. Nulla porttitor accumsan tincidunt.
+                  Thực hiện bài khảo sát và nhận ngay kết quả về lĩnh vực ngành nghề
+                  phù hợp với bản thân.
                 </p>
               </div>
             </div>
@@ -45,14 +45,13 @@ function Services() {
                 <img src={images.serviceIcon2} alt="" />
                 {/* <!-- Service Title --> */}
                 <h3>
-                  Web & App
+                  Tìm hiểu
                   <br />
-                  Development
+                  trường đại học
                 </h3>
                 {/* <!-- Service Info --> */}
                 <p>
-                  Vestibulum ac diam sit amet quam vehicula elementum amet est
-                  on dui. Nulla porttitor accumsan tincidunt.
+                  Tìm thông tin chính thống về các trường đại học, tìm ra ngôi trường yêu thích.
                 </p>
               </div>
             </div>

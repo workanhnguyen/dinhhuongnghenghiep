@@ -10,24 +10,24 @@ function Feedback() {
       <div class="container">
         <div class="row">
           <div class="col-12">
-            <h5>CONTACT US</h5>
-            <h2>Get in Touch</h2>
+            <h5>PHẢN HỒI</h5>
+            <h2>Đóng góp ý kiến</h2>
           </div>
         </div>
         <div class="row">
           <div class="col-12 col-lg-6 email">
             <input
-              placeholder="Your email"
+              placeholder="Nhập email"
               type="email"
               id="email"
-              pattern=".+@globex.com"
+              pattern=".+@gmail.com"
               size="30"
               required
             />
           </div>
           <div class="col-12 col-lg-6 email">
             <input
-              placeholder="Subject"
+              placeholder="Tiêu đề"
               type="subject"
               id="subject"
               size="30"
@@ -37,14 +37,12 @@ function Feedback() {
         </div>
         <div class="row">
           <div class="col-12 message">
-            <textarea id="message" name="message" rows="5" cols="1">
-              Message here...
-            </textarea>
+            <textarea id="message" name="message" rows="5" cols="1" placeholder="Nội dung..."></textarea>
           </div>
           <div class="col-12">
             <div class="hero-btns contact-btn">
               {/* <!-- Send Message Btn --> */}
-              <a href="#">Send Message</a>
+              <a href="#">Gửi phản hồi</a>
             </div>
           </div>
         </div>

@@ -15,9 +15,9 @@ function University() {
           <div class="row">
             <div class="col-12">
               <h2>
-                See some of our
+                Một số trường đại học
                 <br />
-                Creative work.
+                ở Thành phố Hồ Chí Minh
               </h2>
             </div>
           </div>
@@ -32,7 +32,7 @@ function University() {
                     alt="Preview"
                   />
                   {/* <!-- Replace Image Title Under --> */}
-                  <span class="photobox__label">Awesome Work</span>
+                  <span class="photobox__label">Đăng nhập để xem</span>
                 </div>
               </div>
             </div>
@@ -46,7 +46,7 @@ function University() {
                     alt="Preview"
                   />
                   {/* <!-- Replace Image Title Under --> */}
-                  <span class="photobox__label">Awesome Work</span>
+                  <span class="photobox__label">Đăng nhập để xem</span>
                 </div>
               </div>
             </div>
@@ -60,7 +60,7 @@ function University() {
                     alt="Preview"
                   />
                   {/* <!-- Replace Image Title Under --> */}
-                  <span class="photobox__label">Awesome Work</span>
+                  <span class="photobox__label">Đăng nhập để xem</span>
                 </div>
               </div>
             </div>
@@ -76,7 +76,7 @@ function University() {
                     alt="Preview"
                   />
                   {/* <!-- Replace Image Title Under --> */}
-                  <span class="photobox__label">Awesome Work</span>
+                  <span class="photobox__label">Đăng nhập để xem</span>
                 </div>
               </div>
             </div>
@@ -90,7 +90,7 @@ function University() {
                     alt="Preview"
                   />
                   {/* <!-- Replace Image Title Under --> */}
-                  <span class="photobox__label">Awesome Work</span>
+                  <span class="photobox__label">Đăng nhập để xem</span>
                 </div>
               </div>
             </div>
@@ -104,7 +104,7 @@ function University() {
                     alt="Preview"
                   />
                   {/* <!-- Replace Image Title Under --> */}
-                  <span class="photobox__label">Awesome Work</span>
+                  <span class="photobox__label">Đăng nhập để xem</span>
                 </div>
               </div>
             </div>
@@ -122,7 +122,7 @@ function University() {
                       alt="Preview"
                     />
                     {/* <!-- Replace Image Title Under --> */}
-                    <span class="photobox__label">Awesome Work</span>
+                    <span class="photobox__label">Đăng nhập để xem</span>
                   </div>
                 </div>
               </div>
@@ -136,7 +136,7 @@ function University() {
                       alt="Preview"
                     />
                     {/* <!-- Replace Image Title Under --> */}
-                    <span class="photobox__label">Awesome Work</span>
+                    <span class="photobox__label">Đăng nhập để xem</span>
                   </div>
                 </div>
               </div>
@@ -150,7 +150,7 @@ function University() {
                       alt="Preview"
                     />
                     {/* <!-- Replace Image Title Under --> */}
-                    <span class="photobox__label">Awesome Work</span>
+                    <span class="photobox__label">Đăng nhập để xem</span>
                   </div>
                 </div>
               </div>
@@ -159,7 +159,7 @@ function University() {
           <div class="row">
             <div class="col-12 more-btn">
               {/* <!-- Show Me More/Less Button --> */}
-              <a class="more-btn-inside">Show More.</a>
+              <a class="more-btn-inside">Hiển thị thêm</a>
             </div>
           </div>
         </div>

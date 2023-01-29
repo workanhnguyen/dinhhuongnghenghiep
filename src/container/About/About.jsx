@@ -13,18 +13,17 @@ function About() {
             <img src={images.aboutimg} alt="" />
           </div>
           <div class="col-12 col-sm-12 col-lg-6">
-            <h5>OUR COMPANY</h5>
+            <h5>HỆ THỐNG CỦA CHÚNG TÔI</h5>
             <h2>
-              Some Fine
+              Thông tin
               <br />
-              Words About Us
+              về chúng tôi
             </h2>
             {/* <!-- Replace About Us Text Under --> */}
             <p>
-              Vestibulum ac diam sit amet quam vehicula elementum amet est on
-              dui. Nulla porttitor accumsan tincidunt.Vestibulum ac diam sit
-              amet.Quam vehicula elementum amet est on dui. Nulla porttitor
-              accumsan tincidunt.
+              Nhóm phát triển dự án nghiên cứu khoa học thuộc Khoa Công nghệ 
+              thông tin - Trường Đại học Mở thành phố Hồ Chí Minh với đề tài "Hệ thống 
+              hỗ trợ định hướng nghề nghiệp cho học sinh."
             </p>
           </div>
         </div>

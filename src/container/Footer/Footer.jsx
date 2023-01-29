@@ -10,53 +10,36 @@ function Footer() {
       <div class="container">
         <div class="row">
           <div class="col-12">
-            <h5>DOOB</h5>
-            <h3>CREATIVITY ABOVE</h3>
+            <h5>SCOSS</h5>
+            <h3>HCMC - OU</h3>
             <ul class="contact-nav">
               <li>
                 <a data-scroll href="#home">
-                  Home.
+                  Trang chủ
                 </a>
               </li>
               <li>
                 <a data-scroll href="#about-us">
-                  About Us.
+                  Về chúng tôi
                 </a>
               </li>
               <li>
-                <a data-scroll href="#portfolio">
-                  Portfolio.
+                <a data-scroll href="#university">
+                  Đại học
                 </a>
               </li>
               <li>
                 <a data-scroll href="#blog">
-                  Blog.
+                  Blog
                 </a>
               </li>
               <li>
                 <a data-scroll href="#contact-us">
-                  Contact.
+                  Phản hồi
                 </a>
               </li>
             </ul>
-            <h6>© 2019 - Doob,All Right Reserved</h6>
-            <ul class="social">
-              <li>
-                <a href="#">
-                  <i class="icofont-facebook"></i>
-                </a>
-              </li>
-              <li>
-                <a href="#">
-                  <i class="icofont-twitter"></i>
-                </a>
-              </li>
-              <li>
-                <a href="#">
-                  <i class="icofont-dribbble"></i>
-                </a>
-              </li>
-            </ul>
+            <h6>© 2023 - SCOSS, Bản quyền</h6>
           </div>
         </div>
       </div>
