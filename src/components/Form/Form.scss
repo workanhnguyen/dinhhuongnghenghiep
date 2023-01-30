@@ -20,6 +20,10 @@
         height: 240px;
     }
 
+    .form__title {
+        padding: 12px 0;
+    }
+
     form {
         flex: 1;
         display: flex;
@@ -36,6 +40,7 @@
             padding: 12px 24px;
             border-radius: 10px;
             font-size: 1.1rem;
+            margin: 24px 0px;
 
             &:hover {
                 background-color: var(--white);

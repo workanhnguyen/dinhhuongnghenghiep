@@ -1,11 +1,15 @@
 import React from 'react'
 
 import './Register.scss'
+import { Form } from '../../components'
 
-function Register() {
+function Login() {
   return (
-    <div>Register</div>
+    <div id='register'>
+      <div className='image-cover'></div>
+      <Form btnContent="Đăng ký" type="register" />
+    </div>
   )
 }
 
-export default Register
+export default Login

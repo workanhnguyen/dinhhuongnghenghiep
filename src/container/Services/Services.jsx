@@ -41,7 +41,7 @@ function Services() {
             
             {services.map((item, index) => (
               <div key={index} className="col-12 col-sm-6 col-lg-4">
-                <div className="service-box">
+                <div className="item">
                   <img src={item.image} alt=""/>
                   <h3>{item.title}</h3>
                   <p>{item.content}</p>

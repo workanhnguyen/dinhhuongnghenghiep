@@ -4,13 +4,14 @@
     display: flex;
     flex-direction: column;
     background-color: white;
+    margin: 4px 0px;
     
     input {
         border: none;
         border-bottom: 1px solid var(--gray-color);
-        padding: 4px 0px;
+        padding: 2px 0px;
         background-color: transparent;
-        font-size: 1.2rem;
+        font-size: 1rem;
 
         &:focus {
             border-bottom: 1px solid var(--primary-color);

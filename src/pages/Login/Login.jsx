@@ -7,7 +7,7 @@ function Login() {
   return (
     <div id='login'>
       <div className='image-cover'></div>
-      <Form btnContent="Đăng nhập" />
+      <Form btnContent="Đăng nhập" type="login" />
     </div>
   )
 }
