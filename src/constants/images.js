@@ -6,6 +6,7 @@ import five from '../assets/five.png';
 import six from '../assets/six.png';
 import favicon from '../assets/favicon.png';
 import cover from '../assets/cover.png';
+import holland from '../assets/holland.png';
 import loginHead from '../assets/login-head.jpg';
 import aboutimg from '../assets/aboutimg.svg';
 import aside from '../assets/aside.svg';
@@ -27,6 +28,13 @@ import logoFTU from '../assets/logo-ftu.png';
 import logoUTE from '../assets/logo-ute.png';
 import logoIUH from '../assets/logo-iuh.png';
 
+import realistic from '../assets/realistic.jpg';
+import investigative from '../assets/investigative.jpg';
+import artistic from '../assets/artistic.png';
+import enterprising from '../assets/enterprising.png';
+import social from '../assets/social.jpg';
+import conventional from '../assets/conventional.jpg';
+
 export default {
     one,
     two,
@@ -37,6 +45,7 @@ export default {
     favicon,
     aboutimg,
     cover,
+    holland,
     loginHead,
     aside,
     aside2,
@@ -55,4 +64,10 @@ export default {
     logoFTU,
     logoIUH,
     logoUTE,
+    realistic,
+    investigative,
+    artistic,
+    conventional,
+    enterprising,
+    social,
 };
