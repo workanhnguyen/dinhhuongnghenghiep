@@ -76,17 +76,18 @@ function Main() {
             </div>
             <div className="row justify-content-around align-items-center main__choices">
                 {services.map((item, index) => (
-                        <div key={index} className="col-12 col-sm-6 col-lg-6">
-                            <div className="item">
-                                <img src={item.image} alt=""/>
+                    <div key={index} className="col-12 col-sm-12 col-lg-6 col-xl-6">
+                        <div className="item">
+                            <img src={item.image} alt=""/>
+                            <div>
                                 <h3>{item.title}</h3>
                                 <p>{item.content}</p>
-                                <div>
-                                    <Link to={item.route}>Truy cập</Link>
-                                </div>
+                            </div>
+                            <div>
+                                <Link to={item.route}>Truy cập</Link>
                             </div>
                         </div>
-                    ))
+                    </div>))
                 }
             </div>
         </div>

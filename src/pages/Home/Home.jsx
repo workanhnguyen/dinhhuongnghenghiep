@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 
 import './Home.scss'
 import { About, Feedback, Footer, Header, Services, University } from '../../container';
@@ -16,4 +16,4 @@ function Home() {
   )
 }
 
-export default Home
+export default memo(Home)

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 
 function Survey() {
   return (
@@ -6,4 +6,4 @@ function Survey() {
   )
 }
 
-export default Survey
+export default memo(Survey)

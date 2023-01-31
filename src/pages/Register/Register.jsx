@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { memo } from 'react'
 
 import './Register.scss'
 import { Form } from '../../components'
 
-function Login() {
+function Register() {
   return (
     <div id='register'>
       <div className='image-cover'></div>
@@ -12,4 +12,4 @@ function Login() {
   )
 }
 
-export default Login
+export default memo(Register)

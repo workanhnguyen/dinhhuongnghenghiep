@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 
 function User() {
   return (
@@ -6,4 +6,4 @@ function User() {
   )
 }
 
-export default User
+export default memo(User)

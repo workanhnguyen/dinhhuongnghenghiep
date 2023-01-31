@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 
 import './Login.scss'
 import { Form } from '../../components'
@@ -12,4 +12,4 @@ function Login() {
   )
 }
 
-export default Login
+export default memo(Login)
