@@ -7,12 +7,12 @@ import "./Footer.scss";
 function Footer() {
   return (
     <footer>
-      <div class="container">
-        <div class="row">
-          <div class="col-12">
+      <div className="container">
+        <div className="row">
+          <div className="col-12">
             <h5>SCOSS</h5>
             <h3>HCMC - OU</h3>
-            <ul class="contact-nav">
+            <ul className="contact-nav">
               <li>
                 <a data-scroll href="#home">
                   Trang chủ
