@@ -2,7 +2,7 @@ import React from 'react'
 
 import './InputWithLabel.scss'
 
-function InputWithLabel({ label, type, required, accept }) {
+function InputWithLabel({ id, label, type, required, onChange, value, accept, ref }) {
   return (
     <div id='input-with-label'>
         <label>{label}</label>
@@ -16,8 +16,12 @@ function InputWithLabel({ label, type, required, accept }) {
               )
             )
           }
+          id={id}
+          value={value}
+          onChange={onChange}
           required={required}
           accept={accept}
+          ref={ref}
         />
     </div>
   )
