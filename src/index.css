@@ -345,3 +345,7 @@ p {
 .contact-btn a:hover {
   color: #314584 !important;
 }
+.scroll {
+  overflow-x: hidden;
+  overflow-y: scroll;
+}

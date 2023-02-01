@@ -2,7 +2,7 @@ import React from 'react'
 
 import './InputWithLabel.scss'
 
-function InputWithLabel({ label, type, required }) {
+function InputWithLabel({ label, type, required, accept }) {
   return (
     <div id='input-with-label'>
         <label>{label}</label>
@@ -10,11 +10,14 @@ function InputWithLabel({ label, type, required }) {
           type={
             type === 'password' ? 'password' : (
               type === 'email' ? 'email' : (
-                type === 'date' ? 'date' : 'text'
+                type === 'date' ? 'date' : (
+                  type === 'file'? 'file' : 'text'
+                )
               )
             )
           }
           required={required}
+          accept={accept}
         />
     </div>
   )
