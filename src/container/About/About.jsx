@@ -6,13 +6,13 @@ import "./About.scss";
 
 function About() {
   return (
-    <section class="about">
-      <div class="container">
-        <div class="row">
-          <div class="col-12 col-sm-12 col-lg-6">
+    <section className="about">
+      <div className="container">
+        <div className="row">
+          <div className="col-12 col-sm-12 col-lg-6">
             <img src={images.aboutimg} alt="" />
           </div>
-          <div class="col-12 col-sm-12 col-lg-6">
+          <div className="col-12 col-sm-12 col-lg-6">
             <h5>HỆ THỐNG CỦA CHÚNG TÔI</h5>
             <h2>
               Thông tin

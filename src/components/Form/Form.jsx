@@ -1,12 +1,19 @@
 import React, { useState, useRef } from 'react'
+import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router';
+import cookies from 'react-cookies';
 
 import './Form.scss';
 import Apis, { endpoints } from '../../configs/Apis';
 import { InputWithLabel } from '../../components'
 import { images } from '../../constants'
-import { Link } from 'react-router-dom';
+import { loginUser } from '../../ActionCreators/UserCreators';
 
 function Form({ btnContent, type }) {
+
+  const BYTE = 1048576;
+  const MEGA_BYTE = 2;
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -18,12 +25,60 @@ function Form({ btnContent, type }) {
   const avatar = useRef();
 
   const [alertInfo, setAlertInfo] = useState('');
-  const [statusCode, setStatusCode] = useState();
 
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+
+  const resetStates = () => {
+    setFirstName('');
+    setLastName('');
+    setUsername('');
+    setPassword('');
+    setConfirmPassword('');
+    setEmail('');
+    setAlertInfo('');
+  }
+  const handleLogin = async(e) => {
+    e.preventDefault();
+
+    try {
+      let OAuth2Info = await Apis.get(endpoints['oauth2-info'])
+      let OAuth2Token = await Apis.post(endpoints['login'], {
+        "client_id": OAuth2Info.data.client_id,
+        "client_secret": OAuth2Info.data.client_secret,
+        "username": username,
+        "password": password,
+        "grant_type": "password"
+      })
+
+      cookies.save("access_token", OAuth2Token.data.access_token);
+
+      let user = await Apis.get(endpoints['current-user'], {
+        headers: {
+          'Authorization': `Bearer ${cookies.load("access_token")}`
+        }
+      })
+
+      cookies.save("user", user.data);
+      dispatch(loginUser(user.data))
+      navigate("/survey");
+
+    } catch (error) {
+      console.log(error);
+      setAlertInfo('Tên đăng nhập hoặc mật khẩu không chính xác!');
+    }
+    
+  }
   const handleRegister = (e) => {
     e.preventDefault();
     
     let registerUser = async() => {
+
+      let allowToRegister = false;
+
+      const formData = new FormData();
+
       if (
         firstName.trim() === ''
         || lastName.trim() === ''
@@ -41,30 +96,42 @@ function Form({ btnContent, type }) {
       else if (password !== confirmPassword)
         setAlertInfo('Mật khẩu không trùng khớp!')
       else {
+        if (avatar.current.files[0] !== undefined) {
+          if (avatar.current.files[0].size < BYTE * MEGA_BYTE) {
+            formData.append("avatar", avatar.current.files[0]);
+            allowToRegister = true;
+          }
+          else {
+            allowToRegister = false;
+            setAlertInfo(`Kích cỡ ảnh phải dưới ${MEGA_BYTE}MB! --> ${avatar.current.files[0].size}`)
+            avatar.current.value = "";
+          }
+        } else allowToRegister = true;
+      }
 
-        const formData = new FormData();
-        formData.append("first_name", firstName);
-        formData.append("last_name", lastName);
-        formData.append("email", email);
-        formData.append("username", username);
-        formData.append("password", password);
-        formData.append("day_of_birth", dob);
-        formData.append("avatar", avatar.current.files[0]);
+      if (allowToRegister) {
 
-        try {
-          let res = await Apis.post(endpoints['register'], formData, {
-            headers: {
-              "Content-Type": "multipart/form-data",
+          formData.append("first_name", firstName);
+          formData.append("last_name", lastName);
+          formData.append("email", email);
+          formData.append("username", username);
+          formData.append("password", password);
+          formData.append("day_of_birth", dob);
+
+          try {
+            let res = await Apis.post(endpoints['register'], formData, {
+              headers: {
+                "Content-Type": "multipart/form-data",
+              }
+            });
+            if (res.status === 200) {
+              setAlertInfo('Thành công!');
+              resetStates();
             }
-          });
-          setStatusCode(res.status);
-          if (res.status)
-            setAlertInfo('Thành công!');
-        } catch (ex) {
-          setStatusCode(ex.response.status)
-          if (ex.response.status === 400)
-            setAlertInfo('Tên đăng nhập đã tồn tại!');
-        }
+          } catch (ex) {
+            if (ex.response.status === 400)
+              setAlertInfo('Tên đăng nhập đã tồn tại!');
+          }
       }
     }
 
@@ -75,12 +142,25 @@ function Form({ btnContent, type }) {
   return type === 'login' ? (
     <div id='form'>
       <div className='form__img'>
-        <img src={images.loginHead} />
+        <img src={images.loginHead} alt="login-logo"/>
       </div>
-      <form>
-        <InputWithLabel label="Tên đăng nhập" required />
-        <InputWithLabel label="Mật khẩu" type='password' required />
-        <small className='alert'></small>
+      <form onSubmit={handleLogin}>
+        <InputWithLabel 
+          id='username'
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          label="Tên đăng nhập" 
+          required 
+        />
+        <InputWithLabel 
+          id='password'
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          type='password'
+          label="Mật khẩu" 
+          required 
+        />
+        <small className='alert'>{alertInfo}</small>
         <button type="submit">{btnContent}</button>
       </form>
       <div className='form__switch'>
@@ -146,7 +226,7 @@ function Form({ btnContent, type }) {
         />
         <label htmlFor='avatar'>
           <span>Ảnh đại diện</span><br/>
-          <input id='avatar' type='file' ref={avatar} required />
+          <input id='avatar' type='file' ref={avatar} />
         </label>
         <small className='alert'>{alertInfo}</small>
         <button type="submit">{btnContent}</button>

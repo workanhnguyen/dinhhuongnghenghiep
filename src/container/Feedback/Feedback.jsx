@@ -6,17 +6,17 @@ import "./Feedback.scss";
 
 function Feedback() {
   return (
-    <section id="feedback" class="contact">
-      <div class="container">
-        <div class="row">
-          <div class="col-12">
+    <section id="feedback" className="contact">
+      <div className="container">
+        <div className="row">
+          <div className="col-12">
             <h5>PHẢN HỒI</h5>
             <h2>Đóng góp ý kiến</h2>
           </div>
         </div>
         <form>
-          <div class="row">
-            <div class="col-12 col-lg-6 email">
+          <div className="row">
+            <div className="col-12 col-lg-6 email">
               <input
                 placeholder="Nhập email"
                 type="email"
@@ -26,7 +26,7 @@ function Feedback() {
                 required
               />
             </div>
-            <div class="col-12 col-lg-6 email">
+            <div className="col-12 col-lg-6 email">
               <input
                 placeholder="Tiêu đề"
                 type="subject"
@@ -36,12 +36,12 @@ function Feedback() {
               />
             </div>
           </div>
-          <div class="row">
-            <div class="col-12 message">
+          <div className="row">
+            <div className="col-12 message">
               <textarea id="message" name="message" rows="5" cols="1" placeholder="Nội dung..."></textarea>
             </div>
-            <div class="col-12">
-              <div class="hero-btns contact-btn">
+            <div className="col-12">
+              <div className="hero-btns contact-btn">
                 {/* <!-- Send Message Btn --> */}
                 <button type="submit">Gửi phản hồi</button>
               </div>

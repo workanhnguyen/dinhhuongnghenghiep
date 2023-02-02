@@ -199,7 +199,7 @@ function Survey() {
                 </div>
               </div>
               {hollands.map((item, index) => (
-                <div className="row no-gutters justify-content-center align-items-center explain">
+                <div key={index} className="row no-gutters justify-content-center align-items-center explain">
                   <div className="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
                     <div className="explain__item">
                       <img src={item.image} />

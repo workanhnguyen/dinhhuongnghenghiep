@@ -1,12 +1,15 @@
 import React, { useState, memo } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { HiX } from "react-icons/hi";
 import { motion } from "framer-motion";
+import { useDispatch, useSelector } from "react-redux";
+import cookies from 'react-cookies'
 
 import { images } from "../../constants";
 import { Header, Footer } from "../../container";
 import "../../css/bootstrap.min.css";
 import "./HeaderOnly.scss";
+import { logoutUser } from "../../ActionCreators/UserCreators";
 
 const navList = [
   {
@@ -20,8 +23,22 @@ const navList = [
 ];
 
 function HeaderOnly({ children }) {
-  const [toggle, setToggle] = useState(false);
 
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleLogout = (e) => {
+    e.preventDefault();
+
+    setToggle(false);
+    cookies.remove("access_token");
+    cookies.remove("user");
+    dispatch(logoutUser())
+    navigate("/");
+  }
+
+  const [toggle, setToggle] = useState(false);
+  const user = cookies.load("user");
   return (
     <div id="header-only">
       <div className="container">
@@ -30,7 +47,7 @@ function HeaderOnly({ children }) {
             <img src={images.logo} />
           </Link>
           <div className="main__header-user-info">
-            <span>Changed info</span>
+            <span>{user !== undefined ? `${user.last_name} ${user.first_name}` : `null`}</span>
             <div className="app__navbar-menu">
               <img src={images.logoOU} onClick={() => setToggle(true)} />
               {toggle && (
@@ -42,17 +59,31 @@ function HeaderOnly({ children }) {
                   <HiX onClick={() => setToggle(false)} />
                   <ul className="app__navbar-links">
                     {navList.map((item, index) => {
-                      return (
-                        <li key={index}>
-                          <Link
-                            data-scroll
-                            to={item.route}
-                            onClick={() => setToggle(false)}
-                          >
-                            {item.title}
-                          </Link>
-                        </li>
-                      );
+                      if (item.route === '/') {
+                        return (
+                          <li key={index}>
+                            <Link
+                              data-scroll
+                              to={item.route}
+                              onClick={handleLogout}
+                            >
+                              {item.title}
+                            </Link>
+                          </li>
+                        );
+                      } else {
+                        return (
+                          <li key={index}>
+                            <Link
+                              data-scroll
+                              to={item.route}
+                              onClick={() => setToggle(false)}
+                            >
+                              {item.title}
+                            </Link>
+                          </li>
+                        );
+                      }
                     })}
                   </ul>
                 </motion.div>

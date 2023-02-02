@@ -126,7 +126,7 @@ function SearchUniversity() {
             </div>
             <div className="row no-gutters justify-content-start align-items-center main__content">
                 {searchUniList.map((item, index) => (
-                  <div className="col-6 col-sm-6 col-lg-3 col-xl-3">
+                  <div key={index} className="col-6 col-sm-6 col-lg-3 col-xl-3">
                     <a className="item" href={item.link}>
                       <img src={item.image} alt={item.name} />
                       <p>{item.name}</p>

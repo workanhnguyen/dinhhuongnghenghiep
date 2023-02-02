@@ -23,14 +23,14 @@ function University() {
   const [toggleShowMoreUni, setToggleShowMoreUni] = useState(false);
 
   return (
-    <section id="university" class="portfolio">
-      <div class="container-fluid">
-        <div class="portfolio-aside">
+    <section id="university" className="portfolio">
+      <div className="container-fluid">
+        <div className="portfolio-aside">
           <img src={images.aside3} alt="" />
         </div>
-        <div class="container">
-          <div class="row">
-            <div class="col-12">
+        <div className="container">
+          <div className="row">
+            <div className="col-12">
               <h2>
                 Một số trường đại học
                 <br />
@@ -58,8 +58,8 @@ function University() {
             })}
           </div>
           {/* <!-- Hidden Images From University --> */}
-          <div id="hiden-gallery" class="hide">
-            <div class="row">
+          <div id="hiden-gallery" className="hide">
+            <div className="row">
               {universities.map((item, index) => {
                 if (item.showed === false)
                   return (
@@ -79,8 +79,8 @@ function University() {
               })}
             </div>
           </div>
-          <div class="row">
-            <div class="col-12 more-btn">
+          <div className="row">
+            <div className="col-12 more-btn">
               {/* <!-- Show Me More/Less Button --> */}
               {toggleShowMoreUni ? null : (
                 <a onClick={() => {
@@ -91,7 +91,7 @@ function University() {
                     }))
                     setToggleShowMoreUni(true)
                   }} 
-                class="more-btn-inside"
+                className="more-btn-inside"
                 >
                   Hiển thị thêm
                 </a>
