@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { HiMenuAlt4, HiX } from 'react-icons/hi';
 import { motion } from 'framer-motion';
+import { Link } from "react-router-dom";
+import cookies from 'react-cookies';
 
 import { images } from "../../constants";
 import "../../css/bootstrap.min.css";
 import "./Header.scss";
-import { Link } from "react-router-dom";
 
 const navList = [
   {
@@ -27,6 +28,8 @@ const navList = [
 ];
 
 function Header() {
+
+  const user = cookies.load('user');
 
   const [toggle, setToggle] = useState(false);
 
@@ -95,7 +98,11 @@ function Header() {
               className="contact-btn form-inline my-2 my-lg-0"
             >
               {/* <!-- Sign in Button --> */}
-              <Link className="btn-signin" to="/login">Đăng nhập</Link>
+              {user !== undefined ? (
+                <Link className="btn-signin" to="/main">Trải nghiệm ngay</Link>
+              ) : (
+                <Link className="btn-signin" to="/login">Đăng nhập</Link>
+              )}
             </form>
           </div>
         </nav>
@@ -117,14 +124,20 @@ function Header() {
             ngôi trường đại học mơ ước tại đây.
           </p>
           <div className="hero-btns">
-            {/* <!-- Hero Btn First --> */}
-            <Link to="/register" data-scroll>
+            {user !== undefined ? (
+              <Link className="active" to="/main" data-scroll href="#feedback">
+                Trải nghiệm ngay
+              </Link>
+            ) : (
+              <>
+              <Link to="/register" data-scroll>
               Đăng ký
             </Link>
-            {/* <!-- Hero Btn Second --> */}
-            <Link to="/login" data-scroll href="#feedback">
-              Đăng nhập
-            </Link>
+              <Link to="/login" data-scroll href="#feedback">
+                Đăng nhập
+              </Link>
+              </>
+            )}
           </div>
         </div>
       </div>

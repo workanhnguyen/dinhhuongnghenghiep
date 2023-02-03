@@ -10,6 +10,8 @@ const publicRoutes = [
     { path: '/current-user', component: User },
 ];
 
-const privateRoutes = [];
+const privateRoutes = [
+    
+];
 
 export { publicRoutes, privateRoutes }

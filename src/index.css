@@ -183,6 +183,7 @@ p {
 .hero-btns a:first-child {
   background-color: #ff3946;
   border: 2px solid #ff3946;
+  text-decoration: none;
   color: #fff;
   padding: 17px 35px;
   font-size: 1rem;
@@ -200,7 +201,15 @@ p {
   font-size: 1rem;
   border-radius: 30px;
   transition: all 0.3s ease;
-}.btn-signin {
+}
+.active {
+  color: #fff !important;
+}
+.active:hover {
+  color: var(--secondary-color) !important;
+  text-decoration: underline !important;
+}
+.btn-signin {
   background-color: var(--primary-color);
   padding: 16px 42px;
   border-radius: 4px;

@@ -2,11 +2,14 @@ import React, { useState, memo } from "react";
 import { Link } from "react-router-dom";
 import { HiX } from 'react-icons/hi';
 import { motion } from 'framer-motion';
+import cookies from 'react-cookies';
 
 import { images } from "../../constants";
 import { Header } from "../../container";
 import "../../css/bootstrap.min.css";
 import "./Main.scss";
+import { HeaderOnly, FooterOnly } from '../../Layout'
+import { Back } from '../../container'
 
 const navList = [
     {
@@ -36,63 +39,41 @@ const services = [
 
 function Main() {
 
+    const user = cookies.load('user');
+
     const [toggle, setToggle] = useState(false);
 
-  return (
-    <div id='main'>
-        <div className="container">
-            <div className="main__header">
-                <Link to="/" className="main__header-img">
-                    <img src={images.logo} />
-                </Link>
-                <div className="main__header-user-info">
-                    <span>Changed info</span>
-                    <div className="app__navbar-menu">
-                        <img src={images.logoOU} onClick={() => setToggle(true)} />
-                        {toggle && (
-                            <motion.div
-                                whileInView={{ x: [300, 0] }}
-                                transition={{ duration: 0.85, ease: 'easeOut' }}
-                                className='main__hiden-panel'
-                            >
-                                <HiX onClick={() => setToggle(false)} />
-                                <ul className="app__navbar-links">
-                                {navList.map((item, index) => { 
-                                    return (<li key={index}>
-                                            <Link 
-                                                data-scroll 
-                                                to={item.route}
-                                                onClick={() => setToggle(false)}
-                                            >
-                                                {item.title}
-                                            </Link>
-                                        </li>);
-                                    })}
-                                </ul>
-                            </motion.div>
-                        )}
+    if (user === undefined)
+        return (<Back />);
+    else
+    return (
+        <>
+            <HeaderOnly>
+                <div id='main'>
+                    <div className="container">
+                        <div className="row justify-content-around align-items-center main__choices">
+                            {services.map((item, index) => (
+                                <div key={index} className="col-12 col-sm-12 col-lg-6 col-xl-6">
+                                    <div className="item">
+                                        <img src={item.image} alt=""/>
+                                        <div>
+                                            <h3>{item.title}</h3>
+                                            <p>{item.content}</p>
+                                        </div>
+                                        <div>
+                                            <Link to={item.route}>Truy cập</Link>
+                                        </div>
+                                    </div>
+                                </div>))
+                            }
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div className="row justify-content-around align-items-center main__choices">
-                {services.map((item, index) => (
-                    <div key={index} className="col-12 col-sm-12 col-lg-6 col-xl-6">
-                        <div className="item">
-                            <img src={item.image} alt=""/>
-                            <div>
-                                <h3>{item.title}</h3>
-                                <p>{item.content}</p>
-                            </div>
-                            <div>
-                                <Link to={item.route}>Truy cập</Link>
-                            </div>
-                        </div>
-                    </div>))
-                }
-            </div>
-        </div>
-    </div>
-  )
+            </HeaderOnly>
+            <FooterOnly />
+        </>
+        
+    )
 }
 
 export default memo(Main)

@@ -7,6 +7,8 @@ import six from '../assets/six.png';
 import favicon from '../assets/favicon.png';
 import cover from '../assets/cover.png';
 import holland from '../assets/holland.png';
+import back from '../assets/back.jpg';
+import defaultUser from '../assets/default-user.png';
 import loginHead from '../assets/login-head.jpg';
 import aboutimg from '../assets/aboutimg.svg';
 import aside from '../assets/aside.svg';
@@ -45,6 +47,8 @@ export default {
     favicon,
     aboutimg,
     cover,
+    back,
+    defaultUser,
     holland,
     loginHead,
     aside,

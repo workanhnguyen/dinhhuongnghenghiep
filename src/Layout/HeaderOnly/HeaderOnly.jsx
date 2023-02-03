@@ -5,11 +5,12 @@ import { motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import cookies from 'react-cookies'
 
-import { images } from "../../constants";
+import { images, variables } from "../../constants";
 import { Header, Footer } from "../../container";
 import "../../css/bootstrap.min.css";
 import "./HeaderOnly.scss";
 import { logoutUser } from "../../ActionCreators/UserCreators";
+import FooterOnly from "../FooterOnly/FooterOnly";
 
 const navList = [
   {
@@ -49,7 +50,7 @@ function HeaderOnly({ children }) {
           <div className="main__header-user-info">
             <span>{user !== undefined ? `${user.last_name} ${user.first_name}` : `null`}</span>
             <div className="app__navbar-menu">
-              <img src={images.logoOU} onClick={() => setToggle(true)} />
+              <img src={user.avatar !== null ? `${variables.BASE_DIR}${user.avatar}` : images.defaultUser} onClick={() => setToggle(true)} />
               {toggle && (
                 <motion.div
                   whileInView={{ x: [300, 0] }}
@@ -93,7 +94,6 @@ function HeaderOnly({ children }) {
         </div>
         {children}
       </div>
-      <Footer />
     </div>
   );
 }

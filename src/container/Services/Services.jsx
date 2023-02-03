@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import cookies from 'react-cookies';
 
 import { images } from "../../constants";
 import "../../css/bootstrap.min.css";
@@ -19,6 +20,9 @@ const services = [
 ];
 
 function Services() {
+
+  const user = cookies.load('user');
+
   return (
     <section id="about-us" className="services">
       <div className="container-fluid">
@@ -33,9 +37,15 @@ function Services() {
             <div className="col-12 col-sm-12 col-lg-4 service-txt">
               <h2 className="service-title">Mọi thứ bạn cần, chúng tôi cung cấp</h2>
               <div className="hero-btns service-btn">
-                <Link to="/login" data-scroll>
-                  Trải nghiệm ngay
-                </Link>
+                {user !== undefined ? (
+                  <Link to="/main" data-scroll>
+                    Trải nghiệm ngay
+                  </Link>
+                ) : (
+                  <Link to="/login" data-scroll>
+                    Đăng nhập
+                  </Link>
+                )}
               </div>
             </div>
             

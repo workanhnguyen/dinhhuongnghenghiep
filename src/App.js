@@ -5,6 +5,7 @@ import './responsive.scss';
 import { publicRoutes } from './routes';
 
 const App = () => {
+
   return (
     <BrowserRouter>
       <div className='app'>
@@ -14,7 +15,6 @@ const App = () => {
             return <Route key={index} path={route.path} element={<Page />} />
           })}
         </Routes>
-        
       </div>
     </BrowserRouter>
   )

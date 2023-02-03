@@ -62,7 +62,7 @@ function Form({ btnContent, type }) {
 
       cookies.save("user", user.data);
       dispatch(loginUser(user.data))
-      navigate("/survey");
+      navigate("/main");
 
     } catch (error) {
       console.log(error);
@@ -124,9 +124,10 @@ function Form({ btnContent, type }) {
                 "Content-Type": "multipart/form-data",
               }
             });
-            if (res.status === 200) {
+            if (res.status === 201) {
               setAlertInfo('Thành công!');
               resetStates();
+              navigate('/login');
             }
           } catch (ex) {
             if (ex.response.status === 400)
