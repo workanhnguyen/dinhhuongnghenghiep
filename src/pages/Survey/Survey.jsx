@@ -1,9 +1,12 @@
 import React, { useState, memo, useEffect, useReducer } from "react";
+import cookies from 'react-cookies';
 
-import { images } from "../../constants";
+import { images, variables } from "../../constants";
 import { HeaderOnly } from "../../Layout";
+import { Back } from "../../container";
 import "../../css/bootstrap.min.css";
 import "./Survey.scss";
+import Apis, { endpoints } from "../../configs/Apis";
 
 const hollands = [
   {
@@ -49,268 +52,277 @@ const hollands = [
       "Người thuộc nhóm Holland Nghiệp vụ có sở thích và khả năng các công việc thiên về văn phòng như văn thư, hành chánh, tài vụ,... Họ có xu hướng thích làm việc với dữ liệu, con số, văn bản và giấy tờ. Họ suy nghĩ thực tế, chăm chỉ, cẩn thận và kiên nhẫn trong công việc. Họ cảm thấy thoải mái với các luật lệ, quy định và các công việc mang tính chất ổn định trong những môi trường được tổ chức chặt chẽ, khuôn mẫu.",
   },
 ];
-const questions = [
-  {
-    id: 1,
-    answers: [
-      {
-        id: 1,
-        answer_content: "Có tính tự lập",
-        career_category: 1,
-        question: 1,
-      },
-      {
-        id: 10,
-        answer_content: "Thích tìm hiểu, khám phá vấn đề mới",
-        career_category: 2,
-        question: 1,
-      },
-      {
-        id: 19,
-        answer_content: "Dễ xúc động",
-        career_category: 3,
-        question: 1,
-      },
-      {
-        id: 28,
-        answer_content: "Thân thiện, hay giúp đỡ người khác",
-        career_category: 4,
-        question: 1,
-      },
-      {
-        id: 37,
-        answer_content: "Thích phiêu lưu",
-        career_category: 5,
-        question: 1,
-      },
-      {
-        id: 46,
-        answer_content: "Có đầu óc tổ chức, sắp xếp, ngăn nắp",
-        career_category: 6,
-        question: 1,
-      },
-    ],
-    question_content: "Chọn phương án đúng với bạn nhất?",
-    is_active: true,
-  },
-  {
-    id: 2,
-    answers: [
-      {
-        id: 2,
-        answer_content: "Có đầu óc suy nghĩ thực tế",
-        career_category: 1,
-        question: 2,
-      },
-      {
-        id: 11,
-        answer_content: "Có khả năng phân tích vấn đề",
-        career_category: 2,
-        question: 2,
-      },
-      {
-        id: 20,
-        answer_content: "Giàu trí tưởng tượng",
-        career_category: 3,
-        question: 2,
-      },
-      {
-        id: 29,
-        answer_content: "Thích gặp gỡ, làm việc với nhiều người",
-        career_category: 4,
-        question: 2,
-      },
-      {
-        id: 38,
-        answer_content: "Có tính quyết đoán",
-        career_category: 5,
-        question: 2,
-      },
-      {
-        id: 47,
-        answer_content: "Cẩn thận, tỉ mỉ",
-        career_category: 6,
-        question: 2,
-      },
-    ],
-    question_content: "Chọn phương án đúng với bạn nhất?",
-    is_active: true,
-  },
-];
+
 const INIT_SURVEY = 'INIT_SURVEY';
 const DO_SURVEY = 'DO_SURVEY';
 const RESULT_SURVEY = 'RESULT_SURVEY';
 
-const totalQuestions = questions.length;
 
 function Survey() {
-  const [toggleSurvey, setToggleSurvey] = useState(INIT_SURVEY);
-  const [question, setQuestion] = useState(questions[0]);
-  const [indexQuestion, setIndexQuestion] = useState(0);
 
-  const handleChange = () => {
-    return 1;
+  const [toggleSurvey, setToggleSurvey] = useState(INIT_SURVEY);
+  const [indexQuestion, setIndexQuestion] = useState(0);
+  const [listQuestion, setListQuestion] = useState([]);
+  const [question, setQuestion] = useState();
+  const [totalQuestions, setTotalQuestions] = useState(0);
+  const [countResult, setCountResult] = useState();
+  const [checkedState, setCheckedState] = useState();
+  const [careerCategory, setCareerCategory] = useState({});
+  
+  const user = cookies.load('user');
+
+  // Fetch question data from API only 1 time 
+  useEffect(() => {
+    const fetchData = async() => {
+
+      // Fetch and set question data
+      let resQuestion = await Apis.get(endpoints['questions']);
+      let dataQuestion = resQuestion.data;
+
+      setListQuestion(dataQuestion);
+      setTotalQuestions(dataQuestion.length)
+      setCheckedState(new Array(dataQuestion.length * dataQuestion[0].answers.length).fill(false));
+
+      // Fetch and set total career category
+      let resCategory = await Apis.get(`${endpoints['career-categories']}count/`);
+      let dataCountCategory = resCategory.data;
+
+      setCountResult(new Array(dataCountCategory).fill(0));
+
+    };
+    fetchData();
+  }, [])
+  // Re-render and update value of indexQuestion when user clicks on prev and next button
+  useEffect(() => {
+    setQuestion(listQuestion[indexQuestion])
+  }, [indexQuestion]);
+
+  // When user clicks on "Bắt đầu ngay" button
+  // It will render DO_SURVEY UI
+  // Init first question
+  const handleRenderSurvey = (e) => {
+    e.preventDefault();
+
+    setQuestion(listQuestion[indexQuestion]);
+    setToggleSurvey(DO_SURVEY);
+  }
+
+  // Handle data when user chooses checkbox and save those choices
+  const handleCheckboxChange = (e) => {
+    
+    setCheckedState(checkedState.map((item, index) => { return index === e.target.id - 1 ? !item : item }));
+
+    const setCheckboxValue = (e) => {
+
+      if (e.target.checked === true) {
+        if (!countResult[Number(e.target.value) - 1])
+          countResult[Number(e.target.value) - 1] = 1;
+        else
+          countResult[Number(e.target.value) - 1] = countResult[Number(e.target.value) - 1] + 1;
+      } else {
+        countResult[Number(e.target.value) - 1] = countResult[Number(e.target.value) - 1] - 1;
+      }
+
+    };
+
+    setCheckboxValue(e);
   };
+
+  // Handle indexQuestion when user clicks on button
   const handlePrevBtn = () => {
     setIndexQuestion((prev) => prev - 1);
   };
+
+  // Handle indexQuestion when user clicks on button
   const handleNextBtn = () => {
     setIndexQuestion((prev) => prev + 1);
   };
-  const handleResultBtn = () => {
+
+  // Calculate result when user clicks on button
+  const handleSubmitSurvey = () => {
+    setIndexQuestion(0);
+
+    const max = Math.max(...countResult);
+
+    const categoryIndex = countResult.indexOf(max) + 1;
+
+    const fetchCareerCategoryDate = async() => {
+      try {
+        let res = await Apis.get(`${endpoints['career-categories']}${categoryIndex}/`);
+        let data = res.data;
+
+        setCareerCategory(data);
+      } catch(err) {
+        console.log(err);
+      }
+    };
+
+    fetchCareerCategoryDate();
+
     setToggleSurvey(RESULT_SURVEY);
+    resetSurvey();
   };
 
-  useEffect(() => {
-    setQuestion(questions[indexQuestion])
-  }, [indexQuestion]);
+  // Reset survey
+  const resetSurvey = () => {
+    setCheckedState(checkedState.fill(false));
+    setCountResult(countResult.fill(0));
+  };
 
-  switch(toggleSurvey) {
-    case INIT_SURVEY:
-      return (
-        <HeaderOnly>
-          <div id="survey">
-            <div className="container">
-              <div className="row no-gutters justify-content-center align-items-center init">
-                <div className="col-12 col-sm-12 col-lg-6 col-xl-6">
-                  <div className="survey__image">
-                    <img src={images.holland} />
-                  </div>
-                </div>
-                <div className="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
-                  <div className="survey__content">
-                    <p>
-                      Trắc nghiệm Holland chính là cơ sở để bạn đối chiếu sở thích,
-                      năng lực tự nhiên của mình với yêu cầu của các nhóm ngành
-                      nghề. Từ đó bạn có thể định hướng nghề nghiệp theo nhóm ngành
-                      phù hợp nhất. Kết quả Bài trắc nghiệm định hướng nghề nghiệp
-                      giúp bạn tìm ra ba kiểu tính cách của bạn tương ứng với 3 mật
-                      mã Holland (ví dụ: RCE hoặc ECR ). Sau đó dùng mã này kết nối
-                      với những nghề nghiệp cụ thể. Hãy thả lỏng tâm trí và thực
-                      hiện khảo sát một cách thoải mái nhất.
-                    </p>
-                    <button
-                      onClick={() => setToggleSurvey(DO_SURVEY)}
-                      className="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4"
-                    >
-                      Bắt đầu ngay!
-                    </button>
-                  </div>
-                </div>
-              </div>
-              {hollands.map((item, index) => (
-                <div key={index} className="row no-gutters justify-content-center align-items-center explain">
-                  <div className="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
-                    <div className="explain__item">
-                      <img src={item.image} />
+  if (user === undefined)
+    return (<Back />);
+  else
+    switch(toggleSurvey) {
+      case INIT_SURVEY:
+        return (
+          <HeaderOnly>
+            <div id="survey">
+              <div className="container">
+                <div className="row no-gutters justify-content-center align-items-center init">
+                  <div className="col-12 col-sm-12 col-lg-6 col-xl-6">
+                    <div className="survey__image">
+                      <img src={images.holland} />
                     </div>
                   </div>
-                  <div className="col-12 col-sm-12 col-md-8 col-lg-8 col-xl-8">
-                    <div className="explain__item">
-                      <p>{item.content1}</p>
+                  <div className="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                    <div className="survey__content">
                       <p>
-                        <b>Đặc điểm tính cách: </b>
-                        {item.content2}
+                        Trắc nghiệm Holland chính là cơ sở để bạn đối chiếu sở thích,
+                        năng lực tự nhiên của mình với yêu cầu của các nhóm ngành
+                        nghề. Từ đó bạn có thể định hướng nghề nghiệp theo nhóm ngành
+                        phù hợp nhất. Kết quả Bài trắc nghiệm định hướng nghề nghiệp
+                        giúp bạn tìm ra ba kiểu tính cách của bạn tương ứng với 3 mật
+                        mã Holland (ví dụ: RCE hoặc ECR ). Sau đó dùng mã này kết nối
+                        với những nghề nghiệp cụ thể. Hãy thả lỏng tâm trí và thực
+                        hiện khảo sát một cách thoải mái nhất.
                       </p>
+                      <button
+                        onClick={handleRenderSurvey}
+                        className="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4"
+                      >
+                        Bắt đầu ngay!
+                      </button>
                     </div>
                   </div>
                 </div>
-              ))}
+                {hollands.map((item, index) => (
+                  <div key={index} className="row no-gutters justify-content-center align-items-center explain">
+                    <div className="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                      <div className="explain__item">
+                        <img src={item.image} />
+                      </div>
+                    </div>
+                    <div className="col-12 col-sm-12 col-md-8 col-lg-8 col-xl-8">
+                      <div className="explain__item">
+                        <p>{item.content1}</p>
+                        <p>
+                          <b>Đặc điểm tính cách: </b>
+                          {item.content2}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
-        </HeaderOnly>
-      );
-    case DO_SURVEY:
-      return (
-        <HeaderOnly>
-          <div id="survey">
-            <div className="container">
-              <div className="row no-gutters justify-content-center align-items-center question">
-                <div className="col col-12 col-sm-12 col-lg-8 col-xl-8">
-                  <div className="question__item">
-                    <p className="question__item-title">
-                      {question.question_content}
-                    </p>
-                    {question.answers.map((itemAnswer, index) => (
-                      <label
-                        className="question__item-choice"
-                        htmlFor={index}
-                        key={index}
-                      >
-                        <input
-                          id={index}
-                          type="checkbox"
-                          name="answer"
-                          onChange={handleChange}
-                        />
-                        {itemAnswer.answer_content}
-                      </label>
-                    ))}
-                    {indexQuestion === 0 ? (
-                      <div className="question__item-controller">
-                        <button onClick={handleNextBtn} className="controller-next">
-                          Câu tiếp theo
-                        </button>
-                      </div>
-                    ) : indexQuestion === totalQuestions - 1 ? (
-                      <div className="question__item-controller">
-                        <button onClick={handlePrevBtn} className="controller-prev">
-                          Câu trước
-                        </button>
-                        <button
-                          onClick={handleResultBtn}
-                          className="controller-submit"
-                        >
-                          Nộp đáp án
-                        </button>
-                      </div>
-                    ) : (
-                      <div className="question__item-controller">
-                        <button onClick={handlePrevBtn} className="controller-prev">
-                          Câu trước
-                        </button>
-                        <button onClick={handleNextBtn} className="controller-next">
-                          Câu tiếp theo
-                        </button>
-                      </div>
-                    )}
+          </HeaderOnly>
+        );
+      case DO_SURVEY:
+        return (
+          <HeaderOnly>
+            <div id="survey">
+              <div className="container">
+                <div className="row no-gutters justify-content-center align-items-center question">
+                  <div className="col col-12 col-sm-12 col-lg-8 col-xl-8">
+                    <div className="question__item">
+                      <p className="question__item-title">
+                        {`${question.id}. ${question.question_content}`}
+                      </p>
+                      <form>
+                        {question.answers.map((itemAnswer, index) => (
+                          <label
+                            key={index}
+                            className="question__item-choice"
+                            htmlFor={itemAnswer.id}
+                          >
+                            <input
+                              id={itemAnswer.id}
+                              type="checkbox"
+                              name={itemAnswer.id}
+                              onChange={(e) => handleCheckboxChange(e)}
+                              value={itemAnswer.career_category}
+                              checked={checkedState[itemAnswer.id - 1]}
+                              required={false}
+                            />
+                            {itemAnswer.answer_content}
+                          </label>
+                        ))}
+                      </form>
+                      {indexQuestion === 0 ? (
+                        <div className="question__item-controller">
+                          <button onClick={handleNextBtn} className="controller-next">
+                            Câu tiếp theo
+                          </button>
+                        </div>
+                      ) : indexQuestion === totalQuestions - 1 ? (
+                        <div className="question__item-controller">
+                          <button onClick={handlePrevBtn} className="controller-prev">
+                            Câu trước
+                          </button>
+                          <button
+                            onClick={handleSubmitSurvey}
+                            className="controller-submit"
+                          >
+                            Nộp đáp án
+                          </button>
+                        </div>
+                      ) : (
+                        <div className="question__item-controller">
+                          <button onClick={handlePrevBtn} className="controller-prev">
+                            Câu trước
+                          </button>
+                          <button onClick={handleNextBtn} className="controller-next">
+                            Câu tiếp theo
+                          </button>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        </HeaderOnly>
-      )
-    case RESULT_SURVEY:
-      return (
-        <HeaderOnly>
-          <div id="survey">
-            <div className="container">
-              <div className="row no-gutters justify-content-center align-items-center result">
-                <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                  <h1 className="result__title">KẾT QUẢ CỦA BẠN LÀ:</h1>
+          </HeaderOnly>
+        )
+      case RESULT_SURVEY:
+        return (
+          <HeaderOnly>
+            <div id="survey">
+              <div className="container">
+                <div className="row no-gutters justify-content-center align-items-center result">
+                  <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                    <h1 className="result__title">KẾT QUẢ CỦA BẠN LÀ:</h1>
+                  </div>
                 </div>
-              </div>
-              <div className="row no-gutters justify-content-center align-items-center result">
-                <div className="col-12 col-sm-12 col-md-12 col-lg-4 col-xl-4">
-                  <img className="result__image" src={images.enterprising} />
-                </div>
-                <div className="col-12 col-sm-12 col-md-12 col-lg-8 col-xl-8">
-                  <p className="result__content">
-                    {hollands[0].content1}<br/><br/>
-                    <b>Đặc điểm tính cách: </b>{hollands[0].content2}<br/><br/>
-                    <b>Nghề nghiệp phù hợp: </b>Nghề nghiệp ở đây....
-                  </p>
-                </div>
-                <div className="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
-                  <button onClick={() => setToggleSurvey(INIT_SURVEY)} className="result__btn-back">Trở về</button>
+                <div className="row no-gutters justify-content-center align-items-center result">
+                  <div className="col-12 col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                    <img className="result__image" src={careerCategory.image} />
+                  </div>
+                  <div className="col-12 col-sm-12 col-md-12 col-lg-8 col-xl-8">
+                    <p className="result__content">
+                      {careerCategory.category_name}<br/><br/>
+                      <b>Đặc điểm tính cách: </b>{careerCategory.explained_content}<br/><br/>
+                      <b>Nghề nghiệp phù hợp: </b>{careerCategory.career_content}
+                    </p>
+                  </div>
+                  <div className="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
+                    <button onClick={() => setToggleSurvey(INIT_SURVEY)} className="result__btn-back">Trở về</button>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </HeaderOnly>
-      )
-  };
+          </HeaderOnly>
+        )
+    };
 }
 
 export default memo(Survey);

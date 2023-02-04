@@ -118,7 +118,7 @@ function SearchUniversity() {
                   <div className="main__header-user-info">
                       <span>{`${user.last_name} ${user.first_name}`}</span>
                       <div className="app__navbar-menu">
-                          <img src={user.avatar !== null ? `${variables.BASE_DIR}${user.avatar}` : images.defaultUser} onClick={() => setToggle(true)} />
+                          <img src={user.avatar !== null ? `${variables.BASE_DIR_STATIC}${user.avatar}` : images.defaultUser} onClick={() => setToggle(true)} />
                           {toggle && (
                               <motion.div
                                   whileInView={{ x: [300, 0] }}

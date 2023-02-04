@@ -65,8 +65,10 @@ function Form({ btnContent, type }) {
       navigate("/main");
 
     } catch (error) {
-      console.log(error);
-      setAlertInfo('Tên đăng nhập hoặc mật khẩu không chính xác!');
+      if (error.code === 'ERR_NETWORK')
+        setAlertInfo('Server connection refused');
+      else
+        setAlertInfo('Tên đăng nhập hoặc mật khẩu không chính xác!');
     }
     
   }
@@ -135,8 +137,6 @@ function Form({ btnContent, type }) {
           }
       }
     }
-
-    // Check validation data input
     registerUser();
   };
   

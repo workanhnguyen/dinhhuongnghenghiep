@@ -1,12 +1,16 @@
 import axios from "axios";
 
+import { variables } from '../constants'
+
 export let endpoints = {
     "register": "/users/",
     "oauth2-info": "/oauth2-info/",
     "login": "/o/token/",
     "current-user": "/users/current-user/",
+    "questions": "/questions/",
+    "career-categories": "/career-categories/",
 }
 
 export default axios.create({
-    baseURL: "http://127.0.0.1:8000/"
+    baseURL: variables.BASE_DIR
 })
