@@ -117,7 +117,7 @@ function Survey() {
     setRangeAnswer(newRangeAnswer);
     setToggleSurvey(DO_SURVEY);
   };
-  
+
   // Handle data when user chooses checkbox and save those choices
   const handleCheckboxChange = (e) => {
 
@@ -195,15 +195,6 @@ function Survey() {
 
     setToggleSurvey(RESULT_SURVEY);
     resetSurvey();
-  };
-
-  // Toggle required input fields
-  const toggleRequiredInputField = () => {
-    console.log(indexQuestion);
-    if (rangeAnswer[indexQuestion].includes(true))
-      setRequiredInput(false);
-    else
-      setRequiredInput(true);
   };
 
   // Reset survey
