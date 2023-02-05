@@ -58,6 +58,7 @@ const DO_SURVEY = "DO_SURVEY";
 const RESULT_SURVEY = "RESULT_SURVEY";
 
 function Survey() {
+
   const [toggleSurvey, setToggleSurvey] = useState(INIT_SURVEY);
   const [indexQuestion, setIndexQuestion] = useState(0);
   const [listQuestion, setListQuestion] = useState([]);
@@ -96,6 +97,7 @@ function Survey() {
     };
     fetchData();
   }, []);
+  
   // Re-render and update value of indexQuestion when user clicks on prev and next button
   useEffect(() => {
     setQuestion(listQuestion[indexQuestion]);
