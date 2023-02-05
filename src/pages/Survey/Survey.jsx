@@ -1,5 +1,5 @@
 import React, { useState, memo, useEffect, useReducer } from "react";
-import cookies from 'react-cookies';
+import cookies from "react-cookies";
 
 import { images, variables } from "../../constants";
 import { HeaderOnly } from "../../Layout";
@@ -53,13 +53,11 @@ const hollands = [
   },
 ];
 
-const INIT_SURVEY = 'INIT_SURVEY';
-const DO_SURVEY = 'DO_SURVEY';
-const RESULT_SURVEY = 'RESULT_SURVEY';
-
+const INIT_SURVEY = "INIT_SURVEY";
+const DO_SURVEY = "DO_SURVEY";
+const RESULT_SURVEY = "RESULT_SURVEY";
 
 function Survey() {
-
   const [toggleSurvey, setToggleSurvey] = useState(INIT_SURVEY);
   const [indexQuestion, setIndexQuestion] = useState(0);
   const [listQuestion, setListQuestion] = useState([]);
@@ -68,33 +66,39 @@ function Survey() {
   const [countResult, setCountResult] = useState();
   const [checkedState, setCheckedState] = useState();
   const [careerCategory, setCareerCategory] = useState({});
-  
-  const user = cookies.load('user');
+  const [rangeAnswer, setRangeAnswer] = useState();
+  const [requiredInput, setRequiredInput] = useState(true)
 
-  // Fetch question data from API only 1 time 
+  const user = cookies.load("user");
+
+  // Fetch datas from API only 1 time
   useEffect(() => {
-    const fetchData = async() => {
-
+    const fetchData = async () => {
       // Fetch and set question data
-      let resQuestion = await Apis.get(endpoints['questions']);
+      let resQuestion = await Apis.get(endpoints["questions"]);
       let dataQuestion = resQuestion.data;
 
       setListQuestion(dataQuestion);
-      setTotalQuestions(dataQuestion.length)
-      setCheckedState(new Array(dataQuestion.length * dataQuestion[0].answers.length).fill(false));
+      setTotalQuestions(dataQuestion.length);
+      setCheckedState(
+        new Array(dataQuestion.length * dataQuestion[0].answers.length).fill(
+          false
+        )
+      );
 
       // Fetch and set total career category
-      let resCategory = await Apis.get(`${endpoints['career-categories']}count/`);
+      let resCategory = await Apis.get(
+        `${endpoints["career-categories"]}count/`
+      );
       let dataCountCategory = resCategory.data;
 
       setCountResult(new Array(dataCountCategory).fill(0));
-
     };
     fetchData();
-  }, [])
+  }, []);
   // Re-render and update value of indexQuestion when user clicks on prev and next button
   useEffect(() => {
-    setQuestion(listQuestion[indexQuestion])
+    setQuestion(listQuestion[indexQuestion]);
   }, [indexQuestion]);
 
   // When user clicks on "Bắt đầu ngay" button
@@ -104,55 +108,85 @@ function Survey() {
     e.preventDefault();
 
     setQuestion(listQuestion[indexQuestion]);
-    setToggleSurvey(DO_SURVEY);
-  }
 
+    // Check the answers of this question are checked at least one or not
+    const newRangeAnswer = new Array(listQuestion.length);
+    for (let i = 0; i < newRangeAnswer.length; i++) {
+      newRangeAnswer[i] = new Array(listQuestion[indexQuestion].answers.length).fill(false);
+    }
+    setRangeAnswer(newRangeAnswer);
+    setToggleSurvey(DO_SURVEY);
+  };
+  
   // Handle data when user chooses checkbox and save those choices
   const handleCheckboxChange = (e) => {
+
+    // Check state checked of input fields
+    setCheckedState(
+      checkedState.map((item, index) => {
+        return index === e.target.id - 1 ? !item : item;
+      })
+    );
     
-    setCheckedState(checkedState.map((item, index) => { return index === e.target.id - 1 ? !item : item }));
-
+    // Check user selected checkbox in current question
+    rangeAnswer[indexQuestion] = rangeAnswer[indexQuestion].map((item, index) => {
+      return index === Math.floor((e.target.id - 1) / totalQuestions) ? !item : item;
+    });
+    
     const setCheckboxValue = (e) => {
-
       if (e.target.checked === true) {
         if (!countResult[Number(e.target.value) - 1])
           countResult[Number(e.target.value) - 1] = 1;
         else
           countResult[Number(e.target.value) - 1] = countResult[Number(e.target.value) - 1] + 1;
       } else {
-        countResult[Number(e.target.value) - 1] = countResult[Number(e.target.value) - 1] - 1;
+        countResult[Number(e.target.value) - 1] =
+        countResult[Number(e.target.value) - 1] - 1;
       }
-
     };
-
+    
     setCheckboxValue(e);
   };
-
+  
   // Handle indexQuestion when user clicks on button
-  const handlePrevBtn = () => {
-    setIndexQuestion((prev) => prev - 1);
+  const handlePrevBtn = (e) => {
+    e.preventDefault();
+    if (rangeAnswer[indexQuestion].includes(true)) {
+      setIndexQuestion((prev) => prev - 1);
+      setRequiredInput(false);
+    } else 
+      setRequiredInput(true);
   };
 
   // Handle indexQuestion when user clicks on button
-  const handleNextBtn = () => {
-    setIndexQuestion((prev) => prev + 1);
+  const handleNextBtn = (e) => {
+    e.preventDefault();
+    if (rangeAnswer[indexQuestion].includes(true)) {
+      setIndexQuestion((prev) => prev + 1);
+      setRequiredInput(false);
+    } else 
+      setRequiredInput(true);
   };
 
   // Calculate result when user clicks on button
-  const handleSubmitSurvey = () => {
+  const handleSubmitSurvey = (e) => {
+    // e.preventDefault();
+
     setIndexQuestion(0);
 
     const max = Math.max(...countResult);
 
     const categoryIndex = countResult.indexOf(max) + 1;
 
-    const fetchCareerCategoryDate = async() => {
+    const fetchCareerCategoryDate = async () => {
       try {
-        let res = await Apis.get(`${endpoints['career-categories']}${categoryIndex}/`);
+        let res = await Apis.get(
+          `${endpoints["career-categories"]}${categoryIndex}/`
+        );
         let data = res.data;
 
         setCareerCategory(data);
-      } catch(err) {
+      } catch (err) {
         console.log(err);
       }
     };
@@ -163,16 +197,24 @@ function Survey() {
     resetSurvey();
   };
 
+  // Toggle required input fields
+  const toggleRequiredInputField = () => {
+    console.log(indexQuestion);
+    if (rangeAnswer[indexQuestion].includes(true))
+      setRequiredInput(false);
+    else
+      setRequiredInput(true);
+  };
+
   // Reset survey
   const resetSurvey = () => {
     setCheckedState(checkedState.fill(false));
     setCountResult(countResult.fill(0));
   };
 
-  if (user === undefined)
-    return (<Back />);
+  if (user === undefined) return <Back />;
   else
-    switch(toggleSurvey) {
+    switch (toggleSurvey) {
       case INIT_SURVEY:
         return (
           <HeaderOnly>
@@ -187,14 +229,15 @@ function Survey() {
                   <div className="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
                     <div className="survey__content">
                       <p>
-                        Trắc nghiệm Holland chính là cơ sở để bạn đối chiếu sở thích,
-                        năng lực tự nhiên của mình với yêu cầu của các nhóm ngành
-                        nghề. Từ đó bạn có thể định hướng nghề nghiệp theo nhóm ngành
-                        phù hợp nhất. Kết quả Bài trắc nghiệm định hướng nghề nghiệp
-                        giúp bạn tìm ra ba kiểu tính cách của bạn tương ứng với 3 mật
-                        mã Holland (ví dụ: RCE hoặc ECR ). Sau đó dùng mã này kết nối
-                        với những nghề nghiệp cụ thể. Hãy thả lỏng tâm trí và thực
-                        hiện khảo sát một cách thoải mái nhất.
+                        Trắc nghiệm Holland chính là cơ sở để bạn đối chiếu sở
+                        thích, năng lực tự nhiên của mình với yêu cầu của các
+                        nhóm ngành nghề. Từ đó bạn có thể định hướng nghề nghiệp
+                        theo nhóm ngành phù hợp nhất. Kết quả Bài trắc nghiệm
+                        định hướng nghề nghiệp giúp bạn tìm ra ba kiểu tính cách
+                        của bạn tương ứng với 3 mật mã Holland (ví dụ: RCE hoặc
+                        ECR ). Sau đó dùng mã này kết nối với những nghề nghiệp
+                        cụ thể. Hãy thả lỏng tâm trí và thực hiện khảo sát một
+                        cách thoải mái nhất.
                       </p>
                       <button
                         onClick={handleRenderSurvey}
@@ -206,7 +249,10 @@ function Survey() {
                   </div>
                 </div>
                 {hollands.map((item, index) => (
-                  <div key={index} className="row no-gutters justify-content-center align-items-center explain">
+                  <div
+                    key={index}
+                    className="row no-gutters justify-content-center align-items-center explain"
+                  >
                     <div className="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
                       <div className="explain__item">
                         <img src={item.image} />
@@ -252,47 +298,64 @@ function Survey() {
                               onChange={(e) => handleCheckboxChange(e)}
                               value={itemAnswer.career_category}
                               checked={checkedState[itemAnswer.id - 1]}
-                              required={false}
+                              required={requiredInput}
                             />
                             {itemAnswer.answer_content}
                           </label>
                         ))}
+                        {indexQuestion === 0 ? (
+                          <div className="question__item-controller">
+                            <button
+                              type="submit"
+                              onClick={handleNextBtn}
+                              className="controller-next"
+                            >
+                              Câu tiếp theo
+                            </button>
+                          </div>
+                        ) : indexQuestion === totalQuestions - 1 ? (
+                          <div className="question__item-controller">
+                            <button
+                              type="submit"
+                              onClick={handlePrevBtn}
+                              className="controller-prev"
+                            >
+                              Câu trước
+                            </button>
+                            <button
+                              type="submit"
+                              onClick={handleSubmitSurvey}
+                              className="controller-submit"
+                            >
+                              Nộp đáp án
+                            </button>
+                          </div>
+                        ) : (
+                          <div className="question__item-controller">
+                            <button
+                              type="submit"
+                              onClick={handlePrevBtn}
+                              className="controller-prev"
+                            >
+                              Câu trước
+                            </button>
+                            <button
+                              type="submit"
+                              onClick={handleNextBtn}
+                              className="controller-next"
+                            >
+                              Câu tiếp theo
+                            </button>
+                          </div>
+                        )}
                       </form>
-                      {indexQuestion === 0 ? (
-                        <div className="question__item-controller">
-                          <button onClick={handleNextBtn} className="controller-next">
-                            Câu tiếp theo
-                          </button>
-                        </div>
-                      ) : indexQuestion === totalQuestions - 1 ? (
-                        <div className="question__item-controller">
-                          <button onClick={handlePrevBtn} className="controller-prev">
-                            Câu trước
-                          </button>
-                          <button
-                            onClick={handleSubmitSurvey}
-                            className="controller-submit"
-                          >
-                            Nộp đáp án
-                          </button>
-                        </div>
-                      ) : (
-                        <div className="question__item-controller">
-                          <button onClick={handlePrevBtn} className="controller-prev">
-                            Câu trước
-                          </button>
-                          <button onClick={handleNextBtn} className="controller-next">
-                            Câu tiếp theo
-                          </button>
-                        </div>
-                      )}
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </HeaderOnly>
-        )
+        );
       case RESULT_SURVEY:
         return (
           <HeaderOnly>
@@ -309,20 +372,31 @@ function Survey() {
                   </div>
                   <div className="col-12 col-sm-12 col-md-12 col-lg-8 col-xl-8">
                     <p className="result__content">
-                      {careerCategory.category_name}<br/><br/>
-                      <b>Đặc điểm tính cách: </b>{careerCategory.explained_content}<br/><br/>
-                      <b>Nghề nghiệp phù hợp: </b>{careerCategory.career_content}
+                      {careerCategory.category_name}
+                      <br />
+                      <br />
+                      <b>Đặc điểm tính cách: </b>
+                      {careerCategory.explained_content}
+                      <br />
+                      <br />
+                      <b>Nghề nghiệp phù hợp: </b>
+                      {careerCategory.career_content}
                     </p>
                   </div>
                   <div className="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
-                    <button onClick={() => setToggleSurvey(INIT_SURVEY)} className="result__btn-back">Trở về</button>
+                    <button
+                      onClick={() => setToggleSurvey(INIT_SURVEY)}
+                      className="result__btn-back"
+                    >
+                      Trở về
+                    </button>
                   </div>
                 </div>
               </div>
             </div>
           </HeaderOnly>
-        )
-    };
+        );
+    }
 }
 
 export default memo(Survey);
