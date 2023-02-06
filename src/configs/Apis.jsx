@@ -9,6 +9,8 @@ export let endpoints = {
     "current-user": "/users/current-user/",
     "questions": "/questions/",
     "career-categories": "/career-categories/",
+    "get-survey": "/users/current-user/surveys/",
+    "add-survey": "/users/current-user/add-survey/"
 }
 
 export default axios.create({

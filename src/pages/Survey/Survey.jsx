@@ -1,5 +1,6 @@
 import React, { useState, memo, useEffect, useReducer } from "react";
 import cookies from "react-cookies";
+import ReactDOM from "react-dom/client";
 
 import { images, variables } from "../../constants";
 import { HeaderOnly } from "../../Layout";
@@ -58,7 +59,6 @@ const DO_SURVEY = "DO_SURVEY";
 const RESULT_SURVEY = "RESULT_SURVEY";
 
 function Survey() {
-
   const [toggleSurvey, setToggleSurvey] = useState(INIT_SURVEY);
   const [indexQuestion, setIndexQuestion] = useState(0);
   const [listQuestion, setListQuestion] = useState([]);
@@ -68,7 +68,7 @@ function Survey() {
   const [checkedState, setCheckedState] = useState();
   const [careerCategory, setCareerCategory] = useState({});
   const [rangeAnswer, setRangeAnswer] = useState();
-  const [requiredInput, setRequiredInput] = useState(true)
+  const [requiredInput, setRequiredInput] = useState(true);
 
   const user = cookies.load("user");
 
@@ -97,7 +97,7 @@ function Survey() {
     };
     fetchData();
   }, []);
-  
+
   // Re-render and update value of indexQuestion when user clicks on prev and next button
   useEffect(() => {
     setQuestion(listQuestion[indexQuestion]);
@@ -114,7 +114,9 @@ function Survey() {
     // Check the answers of this question are checked at least one or not
     const newRangeAnswer = new Array(listQuestion.length);
     for (let i = 0; i < newRangeAnswer.length; i++) {
-      newRangeAnswer[i] = new Array(listQuestion[indexQuestion].answers.length).fill(false);
+      newRangeAnswer[i] = new Array(
+        listQuestion[indexQuestion].answers.length
+      ).fill(false);
     }
     setRangeAnswer(newRangeAnswer);
     setToggleSurvey(DO_SURVEY);
@@ -122,42 +124,45 @@ function Survey() {
 
   // Handle data when user chooses checkbox and save those choices
   const handleCheckboxChange = (e) => {
-
     // Check state checked of input fields
     setCheckedState(
       checkedState.map((item, index) => {
         return index === e.target.id - 1 ? !item : item;
       })
     );
-    
+
     // Check user selected checkbox in current question
-    rangeAnswer[indexQuestion] = rangeAnswer[indexQuestion].map((item, index) => {
-      return index === Math.floor((e.target.id - 1) / totalQuestions) ? !item : item;
-    });
-    
+    rangeAnswer[indexQuestion] = rangeAnswer[indexQuestion].map(
+      (item, index) => {
+        return index === Math.floor((e.target.id - 1) / totalQuestions)
+          ? !item
+          : item;
+      }
+    );
+
     const setCheckboxValue = (e) => {
       if (e.target.checked === true) {
         if (!countResult[Number(e.target.value) - 1])
           countResult[Number(e.target.value) - 1] = 1;
         else
-          countResult[Number(e.target.value) - 1] = countResult[Number(e.target.value) - 1] + 1;
+          countResult[Number(e.target.value) - 1] =
+            countResult[Number(e.target.value) - 1] + 1;
       } else {
         countResult[Number(e.target.value) - 1] =
-        countResult[Number(e.target.value) - 1] - 1;
+          countResult[Number(e.target.value) - 1] - 1;
       }
     };
-    
+
     setCheckboxValue(e);
   };
-  
+
   // Handle indexQuestion when user clicks on button
   const handlePrevBtn = (e) => {
     e.preventDefault();
     if (rangeAnswer[indexQuestion].includes(true)) {
       setIndexQuestion((prev) => prev - 1);
       setRequiredInput(false);
-    } else 
-      setRequiredInput(true);
+    } else setRequiredInput(true);
   };
 
   // Handle indexQuestion when user clicks on button
@@ -166,21 +171,20 @@ function Survey() {
     if (rangeAnswer[indexQuestion].includes(true)) {
       setIndexQuestion((prev) => prev + 1);
       setRequiredInput(false);
-    } else 
-      setRequiredInput(true);
+    } else setRequiredInput(true);
   };
 
-  // Calculate result when user clicks on button
-  const handleSubmitSurvey = (e) => {
-    // e.preventDefault();
+  // Calculate result and save it to database when user clicks on button
+  const handleSubmitSurvey = () => {
 
     setIndexQuestion(0);
 
     const max = Math.max(...countResult);
-
     const categoryIndex = countResult.indexOf(max) + 1;
 
-    const fetchCareerCategoryDate = async () => {
+    const saveSurveyData = async () => {
+
+      // Get data from career category
       try {
         let res = await Apis.get(
           `${endpoints["career-categories"]}${categoryIndex}/`
@@ -188,17 +192,34 @@ function Survey() {
         let data = res.data;
 
         setCareerCategory(data);
+        const saveResult = `<p>${data.category_name}<br/><b>Đặc điểm tính cách: </b>${data.explained_content}<br/><b>Nghề nghiệp phù hợp: </b>${data.career_content}</p>`;
+
+        // Prepare data to save to database
+        const formData = new FormData();
+        formData.append("participant", user.id);
+        formData.append("result", saveResult);
+
+        try {
+          await Apis.post(endpoints["add-survey"], formData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+              Authorization: `Bearer ${cookies.load("access_token")}`,
+            },
+          });
+        } catch (err) {
+          console.log(err);
+        }
+
       } catch (err) {
         console.log(err);
       }
     };
 
-    fetchCareerCategoryDate();
+    saveSurveyData();
 
     setToggleSurvey(RESULT_SURVEY);
     resetSurvey();
   };
-
   // Reset survey
   const resetSurvey = () => {
     setCheckedState(checkedState.fill(false));
@@ -269,6 +290,7 @@ function Survey() {
       case DO_SURVEY:
         return (
           <HeaderOnly>
+            <h1 id="hal"></h1>
             <div id="survey">
               <div className="container">
                 <div className="row no-gutters justify-content-center align-items-center question">

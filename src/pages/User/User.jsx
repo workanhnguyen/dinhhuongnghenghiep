@@ -11,74 +11,92 @@ import "./User.scss";
 import { variables } from '../../constants'
 import { useDispatch } from "react-redux";
 import { logoutUser } from "../../ActionCreators/UserCreators";
+import Apis, { endpoints } from "../../configs/Apis";
 
 const USER_EDIT = 'USER_EDIT';
 const USER_SURVEY = 'USER_SURVEY';
-
-const surveys = [
-  {
-      "id": 18,
-      "result": "Realistic - Người thực tế",
-      "participant": 1,
-      "created_date": "2023-01-28T04:51:24.571719Z"
-  },
-  {
-      "id": 19,
-      "result": "hihi haha",
-      "participant": 1,
-      "created_date": "2023-01-28T04:51:39.233930Z"
-  },
-  {
-      "id": 20,
-      "result": "hoho",
-      "participant": 1,
-      "created_date": "2023-01-28T05:23:00.328016Z"
-  },
-  {
-      "id": 21,
-      "result": "hakdhasjds",
-      "participant": 1,
-      "created_date": "2023-01-29T13:12:43.744376Z"
-  },
-  {
-    "id": 18,
-    "result": "Realistic - Người thực tế",
-    "participant": 1,
-    "created_date": "2023-01-28T04:51:24.571719Z"
-},
-{
-    "id": 19,
-    "result": "hihi haha",
-    "participant": 1,
-    "created_date": "2023-01-28T04:51:39.233930Z"
-},
-{
-    "id": 20,
-    "result": "hoho",
-    "participant": 1,
-    "created_date": "2023-01-28T05:23:00.328016Z"
-},
-{
-    "id": 21,
-    "result": "hakdhasjds",
-    "participant": 1,
-    "created_date": "2023-01-29T13:12:43.744376Z"
-}
-];
+//   {
+//       "id": 18,
+//       "result": "Realistic - Người thực tế",
+//       "participant": 1,
+//       "created_date": "2023-01-28T04:51:24.571719Z"
+//   },
+//   {
+//       "id": 19,
+//       "result": "hihi haha",
+//       "participant": 1,
+//       "created_date": "2023-01-28T04:51:39.233930Z"
+//   },
+//   {
+//       "id": 20,
+//       "result": "hoho",
+//       "participant": 1,
+//       "created_date": "2023-01-28T05:23:00.328016Z"
+//   },
+//   {
+//       "id": 21,
+//       "result": "hakdhasjds",
+//       "participant": 1,
+//       "created_date": "2023-01-29T13:12:43.744376Z"
+//   },
+//   {
+//     "id": 18,
+//     "result": "Realistic - Người thực tế",
+//     "participant": 1,
+//     "created_date": "2023-01-28T04:51:24.571719Z"
+// },
+// {
+//     "id": 19,
+//     "result": "hihi haha",
+//     "participant": 1,
+//     "created_date": "2023-01-28T04:51:39.233930Z"
+// },
+// {
+//     "id": 20,
+//     "result": "hoho",
+//     "participant": 1,
+//     "created_date": "2023-01-28T05:23:00.328016Z"
+// },
+// {
+//     "id": 21,
+//     "result": "hakdhasjds",
+//     "participant": 1,
+//     "created_date": "2023-01-29T13:12:43.744376Z"
+// }
+// ];
 
 function User() {
 
   const user = cookies.load('user');
 
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [dob, setDob] = useState('');
-  const [email, setEmail] = useState('');
-  const avatar = useRef();
-
+  const [surveys, setSurveys] = useState([]);
   const [toggleEdit, setToggleEdit] = useState(USER_SURVEY);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    
+    const getSurveyData = async() => {
+      try {
+        let res = await Apis.get(endpoints['get-survey'], {
+          headers: {
+            "Authorization": `Bearer ${cookies.load('access_token')}`
+          }
+        });
+        setSurveys(res.data);
+        document.getElementById('survey__result').innerHTML = surveys.map((item, index) => (
+          `<li key=${index}>
+            <h5>${item.created_date.toString().slice(0, 10)}</h5>
+            ${item.result}
+          </li>`
+        )).join('');
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    getSurveyData();
+  }, [surveys, toggleEdit])
 
   const handleEdit = (e) => {
     e.preventDefault();
@@ -141,14 +159,7 @@ function User() {
                 <div className="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-8">
                   <div className="user__show">
                     <h3>LỊCH SỬ KHẢO SÁT:</h3>
-                    <ul className="survey__list scroll">
-                      {surveys.map((item, index) => (
-                        <li key={index}>
-                          <h6>{item.created_date}</h6>
-                          <p>{item.result}</p>
-                        </li>
-                      ))}
-                    </ul>
+                    <ul id="survey__result" className="survey__list scroll"></ul>
                   </div>
                 </div>
               </div>
@@ -164,20 +175,20 @@ function User() {
                 <div className="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-4">
                   <div className="user__info">
                     <div className="user__info-image">
-                      <img src={images.logoBK} alt="avatar" />
+                    <img src={user.avatar === null ? images.defaultUser : `${variables.BASE_DIR_STATIC}${user.avatar}`} alt="avatar" />
                     </div>
                     <div className="user__info-detail">
                       <p>
                         <span className="title">Họ và tên: </span>
-                        <span className="content">Nguyễn Vân Anh</span>
+                        <span className="content">{`${user.last_name} ${user.first_name}`}</span>
                       </p>
                       <p>
                         <span className="title">Ngày sinh: </span>
-                        <span className="content">2002-10-09</span>
+                        <span className="content">{user.day_of_birth}</span>
                       </p>
                       <p>
                         <span className="title">Email: </span>
-                        <span className="content">anhnguyen@ou.edu.vn</span>
+                        <span className="content">{user.email}</span>
                       </p>
                     </div>
                     <div className="user__info-controller">

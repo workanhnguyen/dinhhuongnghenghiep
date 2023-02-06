@@ -1,10 +1,12 @@
 #user {
     .user {
-        margin: 100px 0;
+
+        margin-bottom: 24px;
 
         .user__info,
         .user__show {
-            height: 500px;
+
+            height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -12,21 +14,23 @@
             background-color: transparent;
             box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
             padding: 24px;
-        }
-        .user__info,
-        .user__show {
+
+            ul {
+                height: 80%;
+            }
 
             .user__info-image {
-                position: relative;
-                width: 100px;
-                height: 100px;
-                background-color: aqua;
+                width: fit-content;
+                height: fit-content;
+                background-color: rgb(240, 240, 240);
                 border: 1px solid var(--primary-color);
                 border-radius: 50%;
                 overflow: hidden;
                 
                 img {
-                    height: 100%;
+                    vertical-align: middle;
+                    width: 100px;
+                    height: 100px;
                 }
             }
             .user__info-detail {
@@ -105,6 +109,14 @@
                 padding: 0 36px 36px 36px;
                 margin-bottom: 36px;
                 list-style-type: none;
+                li {
+                    padding-bottom: 36px;
+                    text-align: justify;
+                    h5 {
+                        color: var(--secondary-color);
+                    }
+
+                }
             }
             .user__info-controller {
                 width: 100%;
@@ -119,10 +131,13 @@
                 }
             }
             form {
+                width: 100%;
+                padding: 0 36px;
                 div {
                     display: flex;
                     #input-with-label {
                         padding: 24px 16px;
+                        overflow: hidden;
                     }
                 }
             }
