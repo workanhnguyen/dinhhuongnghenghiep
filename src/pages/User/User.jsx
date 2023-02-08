@@ -15,7 +15,8 @@ import Apis, { endpoints } from "../../configs/Apis";
 
 const USER_EDIT = 'USER_EDIT';
 const USER_SURVEY = 'USER_SURVEY';
-//   {
+const BYTE = 1048576;
+const MEGA_BYTE = 2;
 //       "id": 18,
 //       "result": "Realistic - Người thực tế",
 //       "participant": 1,
@@ -69,6 +70,13 @@ function User() {
 
   const user = cookies.load('user');
 
+  const [firstName, setFirstName] = useState(user.first_name);
+  const [lastName, setLastName] = useState(user.last_name);
+  const [email, setEmail] = useState(user.email);
+  const [dob, setDob] = useState(user.day_of_birth);
+  const avatar = useRef();
+
+  const [alertInfo, setAlertInfo] = useState('');
   const [surveys, setSurveys] = useState([]);
   const [toggleEdit, setToggleEdit] = useState(USER_SURVEY);
   const dispatch = useDispatch();
@@ -84,22 +92,88 @@ function User() {
           }
         });
         setSurveys(res.data);
-        document.getElementById('survey__result').innerHTML = surveys.map((item, index) => (
-          `<li key=${index}>
-            <h5>${item.created_date.toString().slice(0, 10)}</h5>
-            ${item.result}
-          </li>`
-        )).join('');
       } catch (err) {
         console.log(err);
       }
     };
 
     getSurveyData();
-  }, [surveys, toggleEdit])
+  }, [])
+
+  setTimeout(() => {
+    if (toggleEdit === USER_SURVEY) 
+          document.getElementById('survey__result').innerHTML = surveys.map((item, index) => (
+            `<li key=${index}>
+              <h5>${item.created_date.toString().slice(0, 10)}</h5>
+              ${item.result}
+            </li>`
+          )).join('');
+  }, 0);
 
   const handleEdit = (e) => {
     e.preventDefault();
+
+    const updateUser = async() => {
+      let allowToUpdate = false;
+
+      const formData = new FormData();
+
+      if (
+        firstName.trim() === "" ||
+        lastName.trim() === "" ||
+        email.trim() === ""
+      )
+        setAlertInfo("Không được để trống thông tin!");
+      else {
+        if (avatar.current.files[0] !== undefined) {
+          if (avatar.current.files[0].size < BYTE * MEGA_BYTE) {
+            formData.append("avatar", user.avatar.slice(0, user.avatar.indexOf('/')) + '/' + avatar.current.files[0].name);
+            allowToUpdate = true;
+          } else {
+            allowToUpdate = false;
+            setAlertInfo(
+              `Kích cỡ ảnh phải dưới ${MEGA_BYTE}MB!`
+            );
+            avatar.current.value = "";
+          }
+        } else {
+          formData.append("avatar", user.avatar);
+          allowToUpdate = true;
+        }
+      }
+
+      if (allowToUpdate) {
+        formData.append("first_name", firstName);
+        formData.append("last_name", lastName);
+        formData.append("email", email);
+        formData.append("day_of_birth", dob);
+
+        console.log(user.avatar.slice(0, user.avatar.lastIndexOf('/')) + '/' + avatar.current.files[0].name);
+        try {
+          let res = await Apis.patch(endpoints["update"], formData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+              Authorization: `Bearer ${cookies.load('access_token')}`
+            },
+          });
+          if (res.status === 200) {
+            let user = await Apis.get(endpoints["current-user"], {
+              headers: {
+                Authorization: `Bearer ${cookies.load("access_token")}`,
+              },
+            });
+            setAlertInfo("Thành công!");
+            cookies.save("user", user.data);
+            resetStates();
+          }
+        } catch (error) {
+          if (error.code === "ERR_NETWORK")
+            setAlertInfo("Server connection refused");
+          else setAlertInfo("Không thể chỉnh sửa, vui lòng thử lại sau!");
+        }
+      }
+    }
+    updateUser();
   }
 
   const handleLogout = (e) => {
@@ -110,6 +184,13 @@ function User() {
     dispatch(logoutUser())
     navigate("/");
   }
+
+  const resetStates = () => {
+    setFirstName("");
+    setLastName("");
+    setEmail("");
+    setDob()
+  };
   
   if (user === undefined)
     return (<Back />);
@@ -206,15 +287,47 @@ function User() {
                   <div className="user__show">
                     <form onSubmit={handleEdit}>
                       <div>
-                        <InputWithLabel label="Họ và chữ lót: " required />
-                        <InputWithLabel label="Tên: " required />
+                        <InputWithLabel
+                          id="lastName"
+                          value={lastName}
+                          onChange={(e) => setLastName(e.target.value)}
+                          label="Họ và chữ lót:"
+                          required
+                        />
+                        <InputWithLabel
+                          id="firstName"
+                          value={firstName}
+                          onChange={(e) => setFirstName(e.target.value)}
+                          label="Tên:"
+                          required
+                        />
                       </div>
                       <div>
-                        <InputWithLabel label="Ngày sinh: " type="date" required />
-                        <InputWithLabel label="Email: " type="email" required />
+                        <InputWithLabel
+                          id="dob"
+                          value={dob}
+                          onChange={(e) => setDob(e.target.value)}
+                          type="date"
+                          label="Ngày sinh:"
+                          required
+                        />
+                        <InputWithLabel
+                          id="email"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          type="email"
+                          label="Email:"
+                          required
+                        />
                       </div>
-                      <div>  
-                        <InputWithLabel label="Ảnh đại diện: " type="file" accept=".png,.jpg" />
+                      <div> 
+                        <label className="form__avatar">
+                          Ảnh đại diện:<br/>
+                          <input ref={avatar} type="file" accept=".png,.jpg" />
+                        </label>
+                      </div>
+                      <div>
+                        <small className="alert-info">{alertInfo}</small>
                       </div>
                       <div className="user__info-controller">
                         <button 

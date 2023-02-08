@@ -140,6 +140,14 @@
                         overflow: hidden;
                     }
                 }
+                .form__avatar {
+                    padding: 12px 16px;
+                }
+                .alert-info {
+                    padding: 12px 16px;
+                    background-color: transparent;
+                    color: var(--primary-color);
+                }
             }
         }
     }

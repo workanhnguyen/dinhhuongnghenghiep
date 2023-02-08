@@ -10,9 +10,10 @@ import { InputWithLabel } from "../../components";
 import { images } from "../../constants";
 import { loginUser } from "../../ActionCreators/UserCreators";
 
+const BYTE = 1048576;
+const MEGA_BYTE = 2;
+
 function Form({ btnContent, type }) {
-  const BYTE = 1048576;
-  const MEGA_BYTE = 2;
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -57,7 +58,6 @@ function Form({ btnContent, type }) {
           Authorization: `Bearer ${cookies.load("access_token")}`,
         },
       });
-
       cookies.save("user", user.data);
       dispatch(loginUser(user.data));
       navigate("/main");
@@ -100,7 +100,7 @@ function Form({ btnContent, type }) {
           } else {
             allowToRegister = false;
             setAlertInfo(
-              `Kích cỡ ảnh phải dưới ${MEGA_BYTE}MB! --> ${avatar.current.files[0].size}`
+              `Kích cỡ ảnh phải dưới ${MEGA_BYTE}MB!`
             );
             avatar.current.value = "";
           }
