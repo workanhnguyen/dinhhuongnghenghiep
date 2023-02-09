@@ -1,11 +1,12 @@
 import React, { useState, memo, useEffect, useReducer, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import cookies from 'react-cookies';
+import { HiXCircle } from 'react-icons/hi'
 
 import { images } from "../../constants";
 import { InputWithLabel } from '../../components'
 import { Back } from "../../container";
-import { HeaderOnly, FooterOnly } from "../../Layout";
+import { FooterOnly } from "../../Layout";
 import "../../css/bootstrap.min.css";
 import "./User.scss";
 import { variables } from '../../constants'
@@ -127,7 +128,7 @@ function User() {
       else {
         if (avatar.current.files[0] !== undefined) {
           if (avatar.current.files[0].size < BYTE * MEGA_BYTE) {
-            formData.append("avatar", user.avatar.slice(0, user.avatar.indexOf('/')) + '/' + avatar.current.files[0].name);
+            formData.append("avatar", avatar.current.files[0]);
             allowToUpdate = true;
           } else {
             allowToUpdate = false;
@@ -148,7 +149,6 @@ function User() {
         formData.append("email", email);
         formData.append("day_of_birth", dob);
 
-        console.log(user.avatar.slice(0, user.avatar.lastIndexOf('/')) + '/' + avatar.current.files[0].name);
         try {
           let res = await Apis.patch(endpoints["update"], formData, {
             headers: {
@@ -189,7 +189,8 @@ function User() {
     setFirstName("");
     setLastName("");
     setEmail("");
-    setDob()
+    setDob("")
+    avatar.current.value = null
   };
   
   if (user === undefined)
@@ -201,7 +202,7 @@ function User() {
           <div id="user">
             <div className="container">
               <div className="row no-gutters justify-content-center align-items-center user">
-                <div className="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-4">
+                <div className="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-5">
                   <div className="user__info">
                     <div className="user__info-image">
                       <img src={user.avatar === null ? images.defaultUser : `${variables.BASE_DIR_STATIC}${user.avatar}`} alt="avatar" />
@@ -237,7 +238,7 @@ function User() {
                     </div>
                   </div>
                 </div>
-                <div className="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-8">
+                <div className="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-7">
                   <div className="user__show">
                     <h3>LỊCH SỬ KHẢO SÁT:</h3>
                     <ul id="survey__result" className="survey__list scroll"></ul>
@@ -253,7 +254,7 @@ function User() {
           <div id="user">
             <div className="container">
               <div className="row no-gutters justify-content-center align-items-center user">
-                <div className="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-4">
+                <div className="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-5">
                   <div className="user__info">
                     <div className="user__info-image">
                     <img src={user.avatar === null ? images.defaultUser : `${variables.BASE_DIR_STATIC}${user.avatar}`} alt="avatar" />
@@ -275,7 +276,7 @@ function User() {
                     <div className="user__info-controller">
                       <Link 
                         to="/" 
-                        onClick={() => console.log('log out')} 
+                        onClick={() => handleLogout} 
                         className="btn-log-out col-12 col-sm-5 col-md-5 col-lg-12"
                       >
                         Đăng xuất
@@ -283,7 +284,7 @@ function User() {
                     </div>
                   </div>
                 </div>
-                <div className="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-8">
+                <div className="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-7">
                   <div className="user__show">
                     <form onSubmit={handleEdit}>
                       <div>
@@ -320,11 +321,12 @@ function User() {
                           required
                         />
                       </div>
-                      <div> 
-                        <label className="form__avatar">
+                      <div className="form__avatar"> 
+                        <label>
                           Ảnh đại diện:<br/>
                           <input ref={avatar} type="file" accept=".png,.jpg" />
                         </label>
+                        <HiXCircle onClick={() => avatar.current.value = null}/>
                       </div>
                       <div>
                         <small className="alert-info">{alertInfo}</small>

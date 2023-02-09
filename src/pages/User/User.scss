@@ -12,7 +12,6 @@
             justify-content: center;
             align-items: center;
             background-color: transparent;
-            box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
             padding: 24px;
 
             ul {
@@ -98,7 +97,7 @@
         }
         .user__show {
             
-            padding: 0;
+            padding: 0;;
             h3 {
                 width: 100%;
                 padding: 36px;
@@ -135,13 +134,21 @@
                 padding: 0 36px;
                 div {
                     display: flex;
+                    flex-direction: column;
                     #input-with-label {
                         padding: 24px 16px;
                         overflow: hidden;
                     }
                 }
                 .form__avatar {
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
                     padding: 12px 16px;
+
+                    svg {
+                        cursor: pointer;
+                    }
                 }
                 .alert-info {
                     padding: 12px 16px;
