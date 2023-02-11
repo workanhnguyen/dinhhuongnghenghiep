@@ -276,7 +276,7 @@ function User() {
                     <div className="user__info-controller">
                       <Link 
                         to="/" 
-                        onClick={() => handleLogout} 
+                        onClick={handleLogout} 
                         className="btn-log-out col-12 col-sm-5 col-md-5 col-lg-12"
                       >
                         Đăng xuất

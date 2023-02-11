@@ -76,7 +76,11 @@ function Survey() {
   useEffect(() => {
     const fetchData = async () => {
       // Fetch and set question data
-      let resQuestion = await Apis.get(endpoints["questions"]);
+      let resQuestion = await Apis.get(endpoints["questions"], {
+        headers: {
+          Authorization: `Bearer ${cookies.load('access_token')}`
+        }
+      });
       let dataQuestion = resQuestion.data;
 
       setListQuestion(dataQuestion);
@@ -88,9 +92,11 @@ function Survey() {
       );
 
       // Fetch and set total career category
-      let resCategory = await Apis.get(
-        `${endpoints["career-categories"]}count/`
-      );
+      let resCategory = await Apis.get(`${endpoints["career-categories"]}total-category/`, {
+        headers: {
+          Authorization: `Bearer ${cookies.load('access_token')}`
+        }
+      });
       let dataCountCategory = resCategory.data;
 
       setCountResult(new Array(dataCountCategory).fill(0));
@@ -186,9 +192,11 @@ function Survey() {
 
       // Get data from career category
       try {
-        let res = await Apis.get(
-          `${endpoints["career-categories"]}${categoryIndex}/`
-        );
+        let res = await Apis.get(`${endpoints["career-categories"]}${categoryIndex}/`, {
+          headers: {
+            Authorization: `Bearer ${cookies.load('access_token')}`
+          }
+        });
         let data = res.data;
 
         setCareerCategory(data);
