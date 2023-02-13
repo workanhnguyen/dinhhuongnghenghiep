@@ -64,7 +64,10 @@ function Form({ btnContent, type }) {
     } catch (error) {
       if (error.code === "ERR_NETWORK")
         setAlertInfo("Server connection refused");
-      else setAlertInfo("Tên đăng nhập hoặc mật khẩu không chính xác!");
+      else if (error.code === 500)
+        setAlertInfo("Internal Server Error")
+      else 
+        setAlertInfo("Tên đăng nhập hoặc mật khẩu không chính xác!");
     }
   };
   const handleRegister = (e) => {
@@ -129,7 +132,10 @@ function Form({ btnContent, type }) {
         } catch (error) {
           if (error.code === "ERR_NETWORK")
             setAlertInfo("Server connection refused");
-          else setAlertInfo("Tên đăng nhập hoặc mật khẩu không chính xác!");
+          else if (error.code === 500)
+            setAlertInfo("Internal server error");
+          else 
+            setAlertInfo("Tên đăng nhập hoặc mật khẩu không chính xác!");
         }
       }
     };

@@ -1,28 +1,43 @@
-import React, { useState, memo } from "react";
+import React, { useState, memo, useEffect } from "react";
 import { Link } from "react-router-dom";
 import cookies from "react-cookies";
 
 import { images } from "../../constants";
 import "../../css/bootstrap.min.css";
 import "./University.scss";
-
-const universities = [
-  { image: images.logoBK, showed: true },
-  { image: images.logoOU, showed: true },
-  { image: images.logoUEH, showed: true },
-  { image: images.logoUEL, showed: true },
-  { image: images.logoUSSH, showed: true },
-  { image: images.logoUIT, showed: true },
-  { image: images.logoUTE, showed: false },
-  { image: images.logoIUH, showed: false },
-  { image: images.logoFTU, showed: false },
-];
+import Apis, { endpoints } from "../../configs/Apis";
 
 function University() {
   const user = cookies.load("user");
 
-  const [uniList, setUniList] = useState(universities);
   const [toggleShowMoreUni, setToggleShowMoreUni] = useState(false);
+  const [uniList, setUniList] = useState([]);
+
+  useEffect(() => {
+    const fetchUniversityData = async () => {
+      try {
+        let res = await Apis.get(endpoints["get-universities"]);
+
+        const newUniList = res.data.slice(0, 9).map((item, index) => {
+          if (index < 6)
+            return {
+              ...item,
+              showed: true,
+            };
+          else
+            return {
+              ...item,
+              showed: false,
+            };
+        });
+        setUniList(newUniList);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchUniversityData();
+  }, []);
 
   return (
     <section id="university" className="portfolio">
@@ -74,30 +89,6 @@ function University() {
                 );
             })}
           </div>
-          {/* <!-- Hidden Images From University --> */}
-          {/* <div id="hiden-gallery" className="hide">
-            <div className="row">
-              {universities.map((item, index) => {
-                if (item.showed === false)
-                  return (
-                    <div key={index} className="col-12 col-lg-4 work-box">
-                      <div className="photobox photobox_type10">
-                        <div className="photobox__previewbox">
-                          <img
-                            src={item.image}
-                            className="photobox__preview"
-                            alt="Preview"
-                          />
-                          <span className="photobox__label">
-                            Đăng nhập để xem
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  );
-              })}
-            </div>
-          </div> */}
           <div className="row">
             <div className="col-12 more-btn">
               {/* <!-- Show Me More/Less Button --> */}

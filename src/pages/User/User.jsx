@@ -79,12 +79,11 @@ function User() {
 
   const [alertInfo, setAlertInfo] = useState('');
   const [surveys, setSurveys] = useState([]);
-  const [toggleEdit, setToggleEdit] = useState(USER_SURVEY);
+  const [toggle, setToggle] = useState(USER_SURVEY);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   useEffect(() => {
-    
     const getSurveyData = async() => {
       try {
         let res = await Apis.get(endpoints['get-survey'], {
@@ -102,7 +101,7 @@ function User() {
   }, [])
 
   setTimeout(() => {
-    if (toggleEdit === USER_SURVEY) 
+    if (toggle === USER_SURVEY) 
           document.getElementById('survey__result').innerHTML = surveys.map((item, index) => (
             `<li key=${index}>
               <h5>${item.created_date.toString().slice(0, 10)}</h5>
@@ -196,7 +195,7 @@ function User() {
   if (user === undefined)
     return (<Back />);
   else
-    switch(toggleEdit) {
+    switch(toggle) {
       case USER_SURVEY:
         return (
           <div id="user">
@@ -205,7 +204,7 @@ function User() {
                 <div className="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-5">
                   <div className="user__info">
                     <div className="user__info-image">
-                      <img src={user.avatar === null ? images.defaultUser : `${variables.BASE_DIR_STATIC}${user.avatar}`} alt="avatar" />
+                      <img src={user.avatar === null ? images.defaultUser : `${variables.BASE_DIR_STATIC}${user.avatar}` } alt="avatar" />
                     </div>
                     <div className="user__info-detail">
                       <p>
@@ -223,7 +222,7 @@ function User() {
                     </div>
                     <div className="user__info-controller">
                       <button
-                        onClick={() => setToggleEdit(USER_EDIT)}
+                        onClick={() => setToggle(USER_EDIT)}
                         className="btn-edit col-12 col-sm-5 col-md-5 col-lg-12"
                       >
                         Chỉnh sửa
@@ -241,7 +240,16 @@ function User() {
                 <div className="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-7">
                   <div className="user__show">
                     <h3>LỊCH SỬ KHẢO SÁT:</h3>
-                    <ul id="survey__result" className="survey__list scroll"></ul>
+                    <ul id="survey__result" className="survey__list scroll">
+                      {
+                        surveys.map((item, index) => (
+                          `<li key=${index}>
+                            <h5>${item.created_date.toString().slice(0, 10)}</h5>
+                            ${item.result}
+                          </li>`
+                        )).join('')
+                      }
+                    </ul>
                   </div>
                 </div>
               </div>
@@ -340,7 +348,7 @@ function User() {
                         </button>
                         <button 
                           className="btn-back"
-                          onClick={() => setToggleEdit(USER_SURVEY)}
+                          onClick={() => setToggle(USER_SURVEY)}
                         >
                           Trở lại
                         </button>

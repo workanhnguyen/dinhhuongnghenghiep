@@ -10,7 +10,6 @@ function Home() {
         <Services />
         <About />
         <University />
-        <Feedback />
         <Footer />
     </div>
   )

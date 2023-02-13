@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import cookies from 'react-cookies';
 
 import { images } from "../../constants";
-import { Header } from "../../container";
+import { Header, Feedback } from "../../container";
 import "../../css/bootstrap.min.css";
 import "./Main.scss";
 import { HeaderOnly, FooterOnly } from '../../Layout'
@@ -69,7 +69,8 @@ function Main() {
                         </div>
                     </div>
                 </div>
-            </HeaderOnly>
+            </HeaderOnly> 
+            <Feedback />
             <FooterOnly />
         </>
         

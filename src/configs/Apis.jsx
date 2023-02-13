@@ -12,6 +12,9 @@ export let endpoints = {
     "get-survey": "/users/current-user/surveys/",
     "add-survey": "/users/current-user/add-survey/",
     "update": "/users/current-user/update/",
+    "add-feedback": "/feedbacks/add-feedback/",
+    "get-feedback": "/feedbacks/",
+    "get-universities": "/universities/",
 }
 
 export default axios.create({
