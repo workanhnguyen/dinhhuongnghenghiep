@@ -1,4 +1,4 @@
-const BASE_DIR = 'http://127.0.0.1:8000/';
-const BASE_DIR_STATIC = 'http://127.0.0.1:8000/static';
+const BASE_DIR = 'http://workanhnguyen.pythonanywhere.com/';
+const BASE_DIR_STATIC = 'http://workanhnguyen.pythonanywhere.com//static';
 
 export default { BASE_DIR, BASE_DIR_STATIC };
