@@ -6,7 +6,7 @@ import cookies from "react-cookies";
 
 import "./Form.scss";
 import Apis, { endpoints } from "../../configs/Apis";
-import { InputWithLabel } from "../../components";
+import { InputWithLabel, Loading } from "../../components";
 import { images } from "../../constants";
 import { loginUser } from "../../ActionCreators/UserCreators";
 
@@ -25,6 +25,7 @@ function Form({ btnContent, type }) {
   const avatar = useRef();
 
   const [alertInfo, setAlertInfo] = useState("");
+  const [isLogining, setIsLogining] = useState(false);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -60,7 +61,11 @@ function Form({ btnContent, type }) {
       });
       cookies.save("user", user.data);
       dispatch(loginUser(user.data));
-      navigate("/main");
+      setIsLogining(true);
+      setAlertInfo('');
+      setTimeout(() => {
+        navigate("/main"); 
+      }, 1500)
     } catch (error) {
       if (error.code === "ERR_NETWORK")
         setAlertInfo("Server connection refused");
@@ -135,7 +140,7 @@ function Form({ btnContent, type }) {
           else if (error.code === 500)
             setAlertInfo("Internal server error");
           else 
-            setAlertInfo("Tên đăng nhập hoặc mật khẩu không chính xác!");
+            setAlertInfo("Tên đăng nhập đã tồn tại!");
         }
       }
     };
@@ -164,13 +169,21 @@ function Form({ btnContent, type }) {
           required
         />
         <small className="alert">{alertInfo}</small>
-        <button type="submit">{btnContent}</button>
+        {!isLogining ? (
+          <button type="submit">{btnContent}</button>
+        ) : (
+          <Loading />
+        )}
       </form>
       <div className="form__switch">
-        <Link to="/register">
+        {!isLogining ? (
+          <Link to="/register">
           Chưa có tài khoản?{" "}
           <span className="form__switch-highlight">Đăng ký ngay</span>
-        </Link>
+          </Link>
+        ) : (
+          null
+        )}
       </div>
     </div>
   ) : (

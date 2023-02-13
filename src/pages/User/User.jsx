@@ -71,10 +71,10 @@ function User() {
 
   const user = cookies.load('user');
 
-  const [firstName, setFirstName] = useState(user.first_name);
-  const [lastName, setLastName] = useState(user.last_name);
-  const [email, setEmail] = useState(user.email);
-  const [dob, setDob] = useState(user.day_of_birth);
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [dob, setDob] = useState('');
   const avatar = useRef();
 
   const [alertInfo, setAlertInfo] = useState('');
@@ -96,12 +96,12 @@ function User() {
         console.log(err);
       }
     };
-
-    getSurveyData();
+    if (user !== undefined)
+      getSurveyData();
   }, [])
 
   setTimeout(() => {
-    if (toggle === USER_SURVEY) 
+    if (user !== undefined && toggle === USER_SURVEY) 
           document.getElementById('survey__result').innerHTML = surveys.map((item, index) => (
             `<li key=${index}>
               <h5>${item.created_date.toString().slice(0, 10)}</h5>
@@ -298,14 +298,14 @@ function User() {
                       <div>
                         <InputWithLabel
                           id="lastName"
-                          value={lastName}
+                          value={user.last_name}
                           onChange={(e) => setLastName(e.target.value)}
                           label="Họ và chữ lót:"
                           required
                         />
                         <InputWithLabel
                           id="firstName"
-                          value={firstName}
+                          value={user.first_name}
                           onChange={(e) => setFirstName(e.target.value)}
                           label="Tên:"
                           required
@@ -314,7 +314,7 @@ function User() {
                       <div>
                         <InputWithLabel
                           id="dob"
-                          value={dob}
+                          value={user.day_of_birth}
                           onChange={(e) => setDob(e.target.value)}
                           type="date"
                           label="Ngày sinh:"
@@ -322,7 +322,7 @@ function User() {
                         />
                         <InputWithLabel
                           id="email"
-                          value={email}
+                          value={user.email}
                           onChange={(e) => setEmail(e.target.value)}
                           type="email"
                           label="Email:"

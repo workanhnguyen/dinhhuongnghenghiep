@@ -1,26 +1,13 @@
 import React, { useState, memo } from "react";
 import { Link } from "react-router-dom";
-import { HiX } from 'react-icons/hi';
-import { motion } from 'framer-motion';
 import cookies from 'react-cookies';
 
 import { images } from "../../constants";
-import { Header, Feedback } from "../../container";
+import { Feedback } from "../../container";
 import "../../css/bootstrap.min.css";
 import "./Main.scss";
 import { HeaderOnly, FooterOnly } from '../../Layout'
 import { Back } from '../../container'
-
-const navList = [
-    {
-        title: 'Thông tin',
-        route: '/current-user'
-    },
-    {
-        title: 'Đăng xuất',
-        route: '/'
-    }
-];
 
 const services = [
     {
@@ -38,10 +25,7 @@ const services = [
 ];
 
 function Main() {
-
     const user = cookies.load('user');
-
-    const [toggle, setToggle] = useState(false);
 
     if (user === undefined)
         return (<Back />);

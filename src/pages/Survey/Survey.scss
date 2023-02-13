@@ -37,17 +37,24 @@
         }
       }
     }
-    .explain {
-      margin: 24px 0;
-      border-bottom: 1px solid rgb(204, 204, 204);
-      .explain__item {
-        img {
-          width: 100%;
-        }
-        p {
-          padding-left: 24px;
-          text-align: justify;
-        }
+  }
+  .explain {
+    margin: 24px 0;
+    border-bottom: 1px solid rgb(204, 204, 204);
+
+    .explain__image {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+
+      img {
+        width: 80%;
+      }
+    }
+    .explain__content {
+      p {
+        padding: 0px 12px;
+        text-align: justify;
       }
     }
   }

@@ -7,7 +7,7 @@ import cookies from "react-cookies";
 import { useDispatch } from "react-redux";
 
 import { images, variables } from "../../constants";
-import { Back, Footer, Header } from "../../container";
+import { Back, Footer } from "../../container";
 import "../../css/bootstrap.min.css";
 import "./SearchUniversity.scss";
 import { logoutUser } from "../../ActionCreators/UserCreators";

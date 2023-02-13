@@ -6,6 +6,7 @@ import { Form } from '../../components'
 
 function Register() {
 
+  console.log('rendering...');
   const user = cookies.load('user');
 
   if (user !== undefined)
