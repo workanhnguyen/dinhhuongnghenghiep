@@ -71,10 +71,10 @@ function User() {
 
   const user = cookies.load('user');
 
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('');
-  const [dob, setDob] = useState('');
+  const [firstName, setFirstName] = useState(user === undefined ? '' : user.first_name);
+  const [lastName, setLastName] = useState(user === undefined ? '' : user.last_name);
+  const [email, setEmail] = useState(user === undefined ? '' : user.email);
+  const [dob, setDob] = useState(user === undefined ? '' : user.day_of_birth);
   const avatar = useRef();
 
   const [alertInfo, setAlertInfo] = useState('');
@@ -298,14 +298,14 @@ function User() {
                       <div>
                         <InputWithLabel
                           id="lastName"
-                          value={user.last_name}
+                          value={lastName}
                           onChange={(e) => setLastName(e.target.value)}
                           label="Họ và chữ lót:"
                           required
                         />
                         <InputWithLabel
                           id="firstName"
-                          value={user.first_name}
+                          value={firstName}
                           onChange={(e) => setFirstName(e.target.value)}
                           label="Tên:"
                           required
@@ -314,7 +314,7 @@ function User() {
                       <div>
                         <InputWithLabel
                           id="dob"
-                          value={user.day_of_birth}
+                          value={dob}
                           onChange={(e) => setDob(e.target.value)}
                           type="date"
                           label="Ngày sinh:"
@@ -322,7 +322,7 @@ function User() {
                         />
                         <InputWithLabel
                           id="email"
-                          value={user.email}
+                          value={email}
                           onChange={(e) => setEmail(e.target.value)}
                           type="email"
                           label="Email:"
