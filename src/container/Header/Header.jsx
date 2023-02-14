@@ -94,7 +94,7 @@ function Header() {
             <form
               data-scroll
               href="#feedback"
-              className="contact-btn form-inline my-2 my-lg-0"
+              className="btn-form contact-btn form-inline my-2 my-lg-0"
             >
               {/* <!-- Sign in Button --> */}
               {user !== undefined ? (

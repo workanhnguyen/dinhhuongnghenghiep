@@ -2,13 +2,12 @@ import React, { useState, memo } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { HiX } from "react-icons/hi";
 import { motion } from "framer-motion";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import cookies from 'react-cookies'
 
 import { images, variables } from "../../constants";
 import "./HeaderOnly.scss";
 import { logoutUser } from "../../ActionCreators/UserCreators";
-import FooterOnly from "../FooterOnly/FooterOnly";
 
 const navList = [
   {
