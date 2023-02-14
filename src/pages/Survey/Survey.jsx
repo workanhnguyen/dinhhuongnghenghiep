@@ -101,7 +101,7 @@ function Survey() {
     // Check user selected checkbox in current question
     rangeAnswer[indexQuestion] = rangeAnswer[indexQuestion].map(
       (item, index) => {
-        return index === Math.floor((e.target.id - 1) / totalQuestions)
+        return index === Math.floor((e.target.id - 1) % totalQuestions)
           ? !item
           : item;
       }
