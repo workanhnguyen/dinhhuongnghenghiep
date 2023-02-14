@@ -1,7 +1,6 @@
 import React from "react";
 
 import { images } from "../../constants";
-import "../../css/bootstrap.min.css";
 import "./About.scss";
 
 function About() {

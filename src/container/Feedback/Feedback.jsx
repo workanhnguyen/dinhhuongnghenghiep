@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import cookies from "react-cookies";
 
-import { images } from "../../constants";
-import "../../css/bootstrap.min.css";
 import "./Feedback.scss";
 import Apis, { endpoints } from "../../configs/Apis";
 

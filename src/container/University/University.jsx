@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import cookies from "react-cookies";
 
 import { images } from "../../constants";
-import "../../css/bootstrap.min.css";
 import "./University.scss";
 import Apis, { endpoints } from "../../configs/Apis";
 

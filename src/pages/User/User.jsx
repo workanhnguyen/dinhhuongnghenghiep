@@ -7,7 +7,6 @@ import { images } from "../../constants";
 import { InputWithLabel } from '../../components'
 import { Back } from "../../container";
 import { FooterOnly } from "../../Layout";
-import "../../css/bootstrap.min.css";
 import "./User.scss";
 import { variables } from '../../constants'
 import { useDispatch } from "react-redux";

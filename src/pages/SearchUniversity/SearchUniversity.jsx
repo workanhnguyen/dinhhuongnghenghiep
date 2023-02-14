@@ -8,7 +8,6 @@ import { useDispatch } from "react-redux";
 
 import { images, variables } from "../../constants";
 import { Back, Footer } from "../../container";
-import "../../css/bootstrap.min.css";
 import "./SearchUniversity.scss";
 import { logoutUser } from "../../ActionCreators/UserCreators";
 import Apis, { endpoints } from "../../configs/Apis";

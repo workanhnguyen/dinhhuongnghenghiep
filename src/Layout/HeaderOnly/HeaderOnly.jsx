@@ -6,8 +6,6 @@ import { useDispatch, useSelector } from "react-redux";
 import cookies from 'react-cookies'
 
 import { images, variables } from "../../constants";
-import { Header, Footer } from "../../container";
-import "../../css/bootstrap.min.css";
 import "./HeaderOnly.scss";
 import { logoutUser } from "../../ActionCreators/UserCreators";
 import FooterOnly from "../FooterOnly/FooterOnly";

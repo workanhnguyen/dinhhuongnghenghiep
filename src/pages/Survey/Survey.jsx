@@ -1,11 +1,9 @@
 import React, { useState, memo, useEffect } from "react";
 import cookies from "react-cookies";
-import ReactDOM from "react-dom/client";
 
 import { images } from "../../constants";
 import { FooterOnly, HeaderOnly } from "../../Layout";
 import { Back } from "../../container";
-import "../../css/bootstrap.min.css";
 import "./Survey.scss";
 import Apis, { endpoints } from "../../configs/Apis";
 

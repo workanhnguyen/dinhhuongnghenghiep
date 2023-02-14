@@ -4,7 +4,6 @@ import cookies from 'react-cookies';
 
 import { images } from "../../constants";
 import { Feedback } from "../../container";
-import "../../css/bootstrap.min.css";
 import "./Main.scss";
 import { HeaderOnly, FooterOnly } from '../../Layout'
 import { Back } from '../../container'

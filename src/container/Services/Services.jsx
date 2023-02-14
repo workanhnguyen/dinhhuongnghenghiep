@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import cookies from 'react-cookies';
 
 import { images } from "../../constants";
-import "../../css/bootstrap.min.css";
 import "./Services.scss";
 
 const services = [
