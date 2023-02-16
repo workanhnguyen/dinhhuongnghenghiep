@@ -57,7 +57,7 @@ function University() {
             {uniList.map((item, index) => {
               if (item.showed === true)
                 return (
-                  <div key={index} className="col-12 col-lg-4 work-box">
+                  <div key={index} className="col-12 col-sm-6 col-lg-4 work-box">
                     <div className="photobox photobox_type10">
                       {user !== undefined ? (
                         <Link

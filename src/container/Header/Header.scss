@@ -49,6 +49,8 @@
   }
   .btn-form {
     flex: 1;
+    display: flex;
+    justify-content: flex-end;
   }
   //--------- Navbar hide -------------
   .app__navbar-menu {

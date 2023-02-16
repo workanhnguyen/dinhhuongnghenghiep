@@ -53,10 +53,15 @@
             }
             .user__info-controller {
                 width: 100%;
+                display: flex;
+                padding: 0;
+                margin: 0;
                 .btn-edit,
                 .btn-log-out,
                 .btn-back,
                 .btn-submit {
+                    flex: 1;
+                    min-width: 240px;
                     border: none;
                     outline: none;
                     color: var(--white-color);
@@ -65,7 +70,7 @@
                     font-size: 1rem;
                     border-radius: 10px;
                     padding: 12px 48px;
-                    margin: 8px 0;
+                    margin: 8px 0px;
 
                     &:hover {
                         outline: 2px solid var(--primary-color);

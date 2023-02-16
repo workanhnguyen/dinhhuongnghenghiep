@@ -90,7 +90,7 @@ function Feedback() {
               {alertInfo}
             </small>
             <div className="col-12">
-              <div className="hero-btns contact-btn">
+              <div className="contact-btn">
                 {/* <!-- Send Message Btn --> */}
                 <button type="submit">Gửi phản hồi</button>
               </div>

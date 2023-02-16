@@ -116,6 +116,9 @@
             transition: 0.3s ease-out;
           }
         }
+        .controller-prev, .controller-next, .controller-submit {
+          margin: 4px 0;
+        }
         .controller-prev {
           float: left;
         }
@@ -127,8 +130,9 @@
   }
   .result {
     .result__title {
+      font-size: 1.6rem;
       text-align: center;
-      margin: 24px 0;
+      margin: 36px 0;
     }
     .result__image {
       padding: 0 24px 24px 24px;

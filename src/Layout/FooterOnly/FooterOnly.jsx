@@ -1,10 +1,20 @@
 import React, { memo } from 'react'
 
-import { Footer } from '../../container'
+import './FooterOnly.scss'
 
 function FooterOnly() {
   return (
-    <Footer />
+    <footer>
+      <div className="container">
+        <div className="row">
+          <div className="col-12">
+            <h5>SCOSS</h5>
+            <h3>HCMC - OU</h3>
+            <h6>© 2023 - SCOSS, Bản quyền</h6>
+          </div>
+        </div>
+      </div>
+    </footer>
   )
 }
 

@@ -68,11 +68,12 @@ function SearchUniversity() {
     return (
       <div id="search-university">
         <div className="container">
+          <div className="row justify-content-center">
           <div className="main__header">
-            <Link to="/" className="main__header-img">
+            <Link to="/" className="main__header-img d-none d-sm-none d-lg-flex d-xl-flex">
               <img src={images.logo} />
             </Link>
-            <div className="search-bar">
+            <div className="search-bar col-12 col-sm-6 col-lg-4 col-xl-4">
               <label>
                 <input
                   value={searchTerm}
@@ -83,7 +84,7 @@ function SearchUniversity() {
                 <BiSearchAlt className="icon" />
               </label>
             </div>
-            <div className="main__header-user-info">
+            <div className="main__header-user-info d-none d-sm-flex d-lg-flex d-xl-flex">
               <span>{`${user.last_name} ${user.first_name}`}</span>
               <div className="app__navbar-menu">
                 <img
@@ -134,10 +135,11 @@ function SearchUniversity() {
               </div>
             </div>
           </div>
+          </div>
           <div className="row no-gutters justify-content-start main__content">
             {searchTerm !== '' ? (
               searchUniList.map((item, index) => (
-                <div key={index} className="col-6 col-sm-6 col-lg-3 col-xl-3">
+                <div key={index} className="col-12 col-sm-6 col-lg-3 col-xl-3">
                   <a className="item" href={item.link}>
                     <img src={item.image} alt={item.name} />
                     <p>{item.name}</p>
@@ -146,7 +148,7 @@ function SearchUniversity() {
               ))
             ) : (
               uniList.map((item, index) => (
-                <div key={index} className="col-6 col-sm-6 col-lg-3 col-xl-3">
+                <div key={index} className="col-12 col-sm-6 col-lg-3 col-xl-3">
                   <a className="item" href={item.link}>
                     <img src={item.image} alt={item.name} />
                     <p>{item.name}</p>

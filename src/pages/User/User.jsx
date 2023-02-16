@@ -219,17 +219,17 @@ function User() {
                         <span className="content">{`${user.email}`}</span>
                       </p>
                     </div>
-                    <div className="user__info-controller">
+                    <div className="row user__info-controller">
                       <button
                         onClick={() => setToggle(USER_EDIT)}
-                        className="btn-edit col-12 col-sm-5 col-md-5 col-lg-12"
+                        className="btn-edit col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12"
                       >
                         Chỉnh sửa
                       </button>
                       <Link 
                         to="/" 
                         onClick={handleLogout} 
-                        className="btn-log-out col-12 col-sm-5 col-md-5 col-lg-12"
+                        className="btn-log-out col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12"
                       >
                         Đăng xuất
                       </Link>
@@ -338,15 +338,15 @@ function User() {
                       <div>
                         <small className="alert-info">{alertInfo}</small>
                       </div>
-                      <div className="user__info-controller">
+                      <div className="row user__info-controller">
                         <button 
-                          className="btn-submit"
+                          className="btn-submit col-12 col-sm-12 col-lg-12 col-xl-4"
                           type="submit"
                         >
                           Lưu thông tin
                         </button>
                         <button 
-                          className="btn-back"
+                          className="btn-back col-12 col-sm-12 col-lg-12 col-xl-4"
                           onClick={() => setToggle(USER_SURVEY)}
                         >
                           Trở lại

@@ -295,7 +295,7 @@ function Survey() {
                             <button
                               type="submit"
                               onClick={handleNextBtn}
-                              className="controller-next"
+                              className="controller-next col-12 col-sm-5"
                             >
                               Câu tiếp theo
                             </button>
@@ -305,14 +305,14 @@ function Survey() {
                             <button
                               type="submit"
                               onClick={handlePrevBtn}
-                              className="controller-prev"
+                              className="controller-prev col-12 col-sm-5"
                             >
                               Câu trước
                             </button>
                             <button
                               type="submit"
                               onClick={handleSubmitSurvey}
-                              className="controller-submit"
+                              className="controller-submit col-12 col-sm-5"
                             >
                               Nộp đáp án
                             </button>
@@ -322,14 +322,14 @@ function Survey() {
                             <button
                               type="submit"
                               onClick={handlePrevBtn}
-                              className="controller-prev"
+                              className="controller-prev col-12 col-sm-5"
                             >
                               Câu trước
                             </button>
                             <button
                               type="submit"
                               onClick={handleNextBtn}
-                              className="controller-next"
+                              className="controller-next col-12 col-sm-5"
                             >
                               Câu tiếp theo
                             </button>
@@ -349,15 +349,12 @@ function Survey() {
             <div id="survey">
               <div className="container">
                 <div className="row no-gutters justify-content-center align-items-center result">
-                  <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                    <h1 className="result__title">KẾT QUẢ CỦA BẠN LÀ:</h1>
-                  </div>
-                </div>
-                <div className="row no-gutters justify-content-center align-items-center result">
+                <h1 className="result__title">KẾT QUẢ CỦA BẠN LÀ:</h1>
                   <div className="col-12 col-sm-12 col-md-12 col-lg-4 col-xl-4">
                     <img className="result__image" src={result.image} />
                   </div>
                   <div className="col-12 col-sm-12 col-md-12 col-lg-8 col-xl-8">
+                  
                     <p className="result__content">
                       {result.category_name}
                       <br />

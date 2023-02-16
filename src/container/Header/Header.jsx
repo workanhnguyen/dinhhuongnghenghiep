@@ -20,10 +20,6 @@ const navList = [
     title: 'Đại học',
     href: '#university'
   },
-  {
-    title: 'Phản hồi',
-    href: '#feedback'
-  },
 ];
 
 function Header() {
@@ -117,7 +113,7 @@ function Header() {
             nghề nghiệp cho học sinh
           </h1>
           {/* <!-- Hero Title Info --> */}
-          <p className="hero-content">
+          <p className=" col-12 col-sm-12 col-lg-6 col-xl-6">
             Chúng tôi giúp bạn tìm ra lĩnh vực mà bạn đam mê, từ đó giúp xác định
             ngành nghề phù hợp với bạn trong tương lai. Đồng thời bạn có thể tìm kiếm
             ngôi trường đại học mơ ước tại đây.
